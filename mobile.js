@@ -14,8 +14,58 @@ function title(t){return`<h2 class="section-title">${t}</h2>`}
 function nutritionLabel(){return inferNutrition()==='deficit'?'Déficit':inferNutrition()==='surplus'?'Surplus':'Maintien'}
 function drawPriorities(){let v=document.querySelector('#view'),counts={P0:0,P1:0,P2:0};state.priorities.forEach(p=>counts[p.priority]=(counts[p.priority]||0)+1);v.innerHTML=title('Priorités')+`<section class="priority-overview"><div><small>CONTEXTE DU BLOC</small><strong>${nutritionLabel()}</strong></div><div class="priority-counts"><span class="pc0">P0 · ${counts.P0}</span><span class="pc1">P1 · ${counts.P1}</span><span class="pc2">P2 · ${counts.P2}</span></div><p>Les cibles sont synchronisées avec ForgeLab PC. Touchez P0, P1 ou P2 pour modifier une priorité.</p></section>`+state.priorities.map(p=>{let t=total(p.muscle_key);return`<article class="card ${p.priority.toLowerCase()} priority-card"><div class="cardhead"><div><div class="muscle">${esc(p.muscle_name)}</div><div class="range">Cible · <b>${p.target_min}–${p.target_max}</b> séries / semaine</div></div><span class="badge">${p.priority}</span></div><div class="priority-meta"><span>S${state.week} actuellement</span><strong>${t} séries</strong></div><div class="prio-buttons">${['P0','P1','P2'].map(x=>`<button data-m="${esc(p.muscle_key)}" data-p="${x}" class="${p.priority===x?'selected':''}">${x}<small>${derivedRange(p.muscle_name,x).join('–')}</small></button>`).join('')}</div></article>`}).join('');v.querySelectorAll('.prio-buttons button').forEach(b=>b.onclick=()=>changePriority(b.dataset.m,b.dataset.p))}
 async function changePriority(muscleKey,priority){let p=state.priorities.find(x=>x.muscle_key===muscleKey);if(!p)return;let[min,max]=derivedRange(p.muscle_name,priority);cloud('ENREGISTREMENT…');await req('/forgelab_priorities?muscle_key=eq.'+encodeURIComponent(muscleKey),{method:'PATCH',headers:{Prefer:'return=minimal'},body:JSON.stringify({priority,target_min:min,target_max:max,updated_at:new Date().toISOString()})});await load()}
-function drawSeries(){let v=document.querySelector('#view');v.innerHTML=title('Séries / semaine')+state.priorities.map(p=>{let map=Object.fromEntries(rows(p.muscle_key).map(x=>[+x.day,+x.series]));return`<article class="card ${p.priority.toLowerCase()}"><div class="cardhead"><div><div class="muscle">${esc(p.muscle_name)}</div><div class="range">Cible ${p.target_min}–${p.target_max}</div></div><span class="badge">${p.priority}</span></div><div class="days">${DAYS.map((d,i)=>`<div class="day"><label>${d}</label><input inputmode="numeric" pattern="[0-9]*" value="${map[i+1]||0}" data-m="${esc(p.muscle_key)}" data-d="${i+1}"></div>`).join('')}</div><div class="totalrow"><span>Total semaine</span><b>${total(p.muscle_key)} séries</b></div></article>`}).join('');v.querySelectorAll('input').forEach(i=>i.onchange=()=>saveSeries(i.dataset.m,+i.dataset.d,+i.value))}
-async function saveSeries(m,d,n){n=Math.max(0,Math.round(n||0));cloud('ENREGISTREMENT…');let path=`/forgelab_series?block_key=eq.main&week=eq.${state.week}&muscle_key=eq.${encodeURIComponent(m)}&day=eq.${d}`;if(n===0)await req(path,{method:'DELETE',headers:{Prefer:'return=minimal'}});else await req('/forgelab_series?on_conflict=block_key,week,muscle_key,day',{method:'POST',headers:{Prefer:'resolution=merge-duplicates,return=minimal'},body:JSON.stringify([{block_key:'main',week:state.week,muscle_key:m,day:d,series:n,updated_at:new Date().toISOString()}])});await load()}
+let saveTimers={};
+function drawSeries(){
+  let v=document.querySelector('#view');
+  v.innerHTML=title('Séries / semaine')+state.priorities.map(p=>{
+    let map=Object.fromEntries(rows(p.muscle_key).map(x=>[+x.day,+x.series]));
+    return`<article class="card ${p.priority.toLowerCase()}" data-card="${esc(p.muscle_key)}">
+      <div class="cardhead"><div><div class="muscle">${esc(p.muscle_name)}</div><div class="range">Cible ${p.target_min}–${p.target_max}</div></div><span class="badge">${p.priority}</span></div>
+      <div class="days">${DAYS.map((d,i)=>`<div class="day"><label>${d}</label><input inputmode="numeric" pattern="[0-9]*" enterkeyhint="done" value="${map[i+1]||0}" data-m="${esc(p.muscle_key)}" data-d="${i+1}" aria-label="${d} ${esc(p.muscle_name)}"></div>`).join('')}</div>
+      <div class="totalrow"><span>Total semaine</span><b data-total="${esc(p.muscle_key)}">${total(p.muscle_key)} séries</b></div>
+    </article>`
+  }).join('');
+
+  v.querySelectorAll('input').forEach(i=>{
+    i.addEventListener('focus',()=>{ if(i.value==='0') i.select(); });
+    i.addEventListener('input',()=>{
+      let raw=i.value.replace(/[^0-9]/g,'');
+      if(raw!==i.value)i.value=raw;
+      const n=raw===''?0:Math.max(0,Math.min(99,parseInt(raw,10)||0));
+      updateSeriesLocal(i.dataset.m,+i.dataset.d,n);
+      queueSeriesSave(i.dataset.m,+i.dataset.d,n);
+    });
+  });
+}
+function updateSeriesLocal(m,d,n){
+  let r=state.series.find(x=>+x.week===+state.week&&x.muscle_key===m&&+x.day===+d);
+  if(r) r.series=n;
+  else state.series.push({block_key:'main',week:state.week,muscle_key:m,day:d,series:n});
+  const totalEl=document.querySelector(`[data-total="${CSS.escape(m)}"]`);
+  if(totalEl) totalEl.textContent=total(m)+' séries';
+}
+function queueSeriesSave(m,d,n){
+  const k=`${state.week}|${m}|${d}`;
+  clearTimeout(saveTimers[k]);
+  cloud('ENREGISTREMENT…');
+  saveTimers[k]=setTimeout(()=>saveSeries(m,d,n),350);
+}
+async function saveSeries(m,d,n){
+  n=Math.max(0,Math.round(n||0));
+  try{
+    let path=`/forgelab_series?block_key=eq.main&week=eq.${state.week}&muscle_key=eq.${encodeURIComponent(m)}&day=eq.${d}`;
+    if(n===0) await req(path,{method:'DELETE',headers:{Prefer:'return=minimal'}});
+    else await req('/forgelab_series?on_conflict=block_key,week,muscle_key,day',{
+      method:'POST',
+      headers:{Prefer:'resolution=merge-duplicates,return=minimal'},
+      body:JSON.stringify([{block_key:'main',week:state.week,muscle_key:m,day:d,series:n,updated_at:new Date().toISOString()}])
+    });
+    cloud('SYNCHRONISÉ','ok');
+  }catch(e){
+    console.error(e);
+    cloud('HORS LIGNE','err');
+  }
+}
 function drawTracking(){
   const minimum=state.priorities.reduce((a,p)=>a+(+p.target_min||0),0);
   const done=state.priorities.reduce((a,p)=>a+total(p.muscle_key),0);
