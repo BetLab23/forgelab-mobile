@@ -19,7 +19,8 @@ async function load(render=true){try{
   // While a Series field is being edited, keep the local Series values.
   // Cloud data can refresh again as soon as editing has finished.
   const focusedSeries = document.activeElement && document.activeElement.classList?.contains('series-input');
-  const editingNow = state.tab==='series' && (focusedSeries || (typeof editingSeries!=='undefined' && editingSeries.size>0));
+  const hasPendingSeriesWrites = typeof saveState!=='undefined' && Object.values(saveState).some(s=>s && (s.sending || s.wanted!==s.lastSent));
+  const editingNow = state.tab==='series' && (focusedSeries || hasPendingSeriesWrites || (typeof editingSeries!=='undefined' && editingSeries.size>0));
   if(!editingNow) state.series=c;
 
   cloud('SYNCHRONISÉ','ok');
@@ -36,6 +37,8 @@ function nutritionLabel(){return inferNutrition()==='deficit'?'Déficit':inferNu
 function drawPriorities(){let v=document.querySelector('#view'),counts={P0:0,P1:0,P2:0};state.priorities.forEach(p=>counts[p.priority]=(counts[p.priority]||0)+1);v.innerHTML=title('Priorités')+`<section class="priority-overview"><div><small>CONTEXTE DU BLOC</small><strong>${nutritionLabel()}</strong></div><div class="priority-counts"><span class="pc0">P0 · ${counts.P0}</span><span class="pc1">P1 · ${counts.P1}</span><span class="pc2">P2 · ${counts.P2}</span></div><p>Les cibles sont synchronisées avec ForgeLab PC. Touchez P0, P1 ou P2 pour modifier une priorité.</p></section>`+state.priorities.map(p=>{let t=total(p.muscle_key);return`<article class="card ${p.priority.toLowerCase()} priority-card"><div class="cardhead"><div><div class="muscle">${esc(p.muscle_name)}</div><div class="range">Cible · <b>${p.target_min}–${p.target_max}</b> séries / semaine</div></div><span class="badge">${p.priority}</span></div><div class="priority-meta"><span>S${state.week} actuellement</span><strong>${t} séries</strong></div><div class="prio-buttons">${['P0','P1','P2'].map(x=>`<button data-m="${esc(p.muscle_key)}" data-p="${x}" class="${p.priority===x?'selected':''}">${x}<small>${derivedRange(p.muscle_name,x).join('–')}</small></button>`).join('')}</div></article>`}).join('');v.querySelectorAll('.prio-buttons button').forEach(b=>b.onclick=()=>changePriority(b.dataset.m,b.dataset.p))}
 async function changePriority(muscleKey,priority){let p=state.priorities.find(x=>x.muscle_key===muscleKey);if(!p)return;let[min,max]=derivedRange(p.muscle_name,priority);cloud('ENREGISTREMENT…');await req('/forgelab_priorities?muscle_key=eq.'+encodeURIComponent(muscleKey),{method:'PATCH',headers:{Prefer:'return=minimal'},body:JSON.stringify({priority,target_min:min,target_max:max,updated_at:new Date().toISOString()})});await load()}
 let saveTimers={};
+let saveState={}; // per-cell serialized cloud writes; latest value always wins
+
 function drawSeries(){
   let v=document.querySelector('#view');
   v.innerHTML=title('Séries / semaine')+state.priorities.map(p=>{
@@ -63,38 +66,34 @@ function wireSeriesInputs(v){
     i.addEventListener('focus',()=>{
       editingSeries.add(seriesEditKey(i));
       i.dataset.lastValid = i.value || '0';
-      if(i.value==='0') i.select();
+      // Select the current value for fast replacement, but do not modify it.
+      try{i.select()}catch(_){}
     });
 
     i.addEventListener('input',()=>{
-      let raw=i.value.replace(/[^0-9]/g,'');
-      if(raw!==i.value) i.value=raw;
+      const raw=(i.value||'').replace(/[^0-9]/g,'');
 
-      editingSeries.add(seriesEditKey(i));
-
-      // IMPORTANT iOS:
-      // When replacing a selected "0", Safari can briefly emit an empty value
-      // before the user's digit arrives. Empty is therefore treated as a
-      // transient editing state and is NEVER saved as 0.
+      // Safari/iOS may transiently emit an empty string during replacement.
+      // Ignore it completely: no local update and no cloud request.
       if(raw==='') return;
 
       const n=Math.max(0,Math.min(99,parseInt(raw,10)||0));
-      i.value=String(n);
       i.dataset.lastValid=String(n);
 
+      // Optimistic UI/state: instant.
       updateSeriesLocal(i.dataset.m,+i.dataset.d,n);
+
+      // Cloud is background-only and serialized per cell.
       queueSeriesSave(i.dataset.m,+i.dataset.d,n);
     });
 
     i.addEventListener('blur',()=>{
       const key=seriesEditKey(i);
 
-      // If iOS leaves the field temporarily empty, restore the last real value.
-      if(i.value===''){
-        i.value=i.dataset.lastValid || '0';
-      }
+      // If the field visually ended empty, restore the last actual value.
+      if((i.value||'')==='') i.value=i.dataset.lastValid || '0';
 
-      setTimeout(()=>editingSeries.delete(key), 250);
+      setTimeout(()=>editingSeries.delete(key),250);
     });
   });
 }
@@ -113,24 +112,59 @@ function updateSeriesLocal(m,d,n){
 }
 function queueSeriesSave(m,d,n){
   const k=`${state.week}|${m}|${d}`;
+  if(!saveState[k]) saveState[k]={wanted:n,sending:false,lastSent:null};
+  saveState[k].wanted=n;
+
   clearTimeout(saveTimers[k]);
   cloud('ENREGISTREMENT…');
-  saveTimers[k]=setTimeout(()=>saveSeries(m,d,n),650);
+
+  // Tiny debounce only to coalesce very fast keystrokes.
+  saveTimers[k]=setTimeout(()=>flushSeriesSave(k,m,d),180);
 }
-async function saveSeries(m,d,n){
-  n=Math.max(0,Math.round(n||0));
+
+async function flushSeriesSave(k,m,d){
+  const slot=saveState[k];
+  if(!slot || slot.sending) return;
+
+  const n=Math.max(0,Math.round(slot.wanted||0));
+  slot.sending=true;
+  slot.lastSent=n;
+
   try{
-    let path=`/forgelab_series?block_key=eq.main&week=eq.${state.week}&muscle_key=eq.${encodeURIComponent(m)}&day=eq.${d}`;
-    if(n===0) await req(path,{method:'DELETE',headers:{Prefer:'return=minimal'}});
-    else await req('/forgelab_series?on_conflict=block_key,week,muscle_key,day',{
-      method:'POST',
-      headers:{Prefer:'resolution=merge-duplicates,return=minimal'},
-      body:JSON.stringify([{block_key:'main',week:state.week,muscle_key:m,day:d,series:n,updated_at:new Date().toISOString()}])
-    });
-    cloud('SYNCHRONISÉ','ok');
+    const path=`/forgelab_series?block_key=eq.main&week=eq.${state.week}&muscle_key=eq.${encodeURIComponent(m)}&day=eq.${d}`;
+
+    if(n===0){
+      await req(path,{method:'DELETE',headers:{Prefer:'return=minimal'}});
+    }else{
+      await req('/forgelab_series?on_conflict=block_key,week,muscle_key,day',{
+        method:'POST',
+        headers:{Prefer:'resolution=merge-duplicates,return=minimal'},
+        body:JSON.stringify([{
+          block_key:'main',
+          week:state.week,
+          muscle_key:m,
+          day:d,
+          series:n,
+          updated_at:new Date().toISOString()
+        }])
+      });
+    }
+
+    slot.sending=false;
+
+    // If the user changed the field while this request was in flight,
+    // immediately send the newest value. Old requests can no longer "win".
+    if(slot.wanted!==slot.lastSent){
+      flushSeriesSave(k,m,d);
+    }else{
+      cloud('SYNCHRONISÉ','ok');
+    }
   }catch(e){
     console.error(e);
+    slot.sending=false;
     cloud('HORS LIGNE','err');
+    clearTimeout(saveTimers[k]);
+    saveTimers[k]=setTimeout(()=>flushSeriesSave(k,m,d),1200);
   }
 }
 function drawTracking(){
