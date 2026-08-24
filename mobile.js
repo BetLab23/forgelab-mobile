@@ -21,21 +21,82 @@ function drawSeries(){
     let map=Object.fromEntries(rows(p.muscle_key).map(x=>[+x.day,+x.series]));
     return`<article class="card ${p.priority.toLowerCase()}" data-card="${esc(p.muscle_key)}">
       <div class="cardhead"><div><div class="muscle">${esc(p.muscle_name)}</div><div class="range">Cible ${p.target_min}–${p.target_max}</div></div><span class="badge">${p.priority}</span></div>
-      <div class="days">${DAYS.map((d,i)=>`<div class="day"><label>${d}</label><input inputmode="numeric" pattern="[0-9]*" enterkeyhint="done" value="${map[i+1]||0}" data-m="${esc(p.muscle_key)}" data-d="${i+1}" aria-label="${d} ${esc(p.muscle_name)}"></div>`).join('')}</div>
+      <div class="days">${DAYS.map((d,i)=>`<div class="day"><label>${d}</label><button type="button" class="series-input" data-m="${esc(p.muscle_key)}" data-d="${i+1}" aria-label="${d} ${esc(p.muscle_name)}">${map[i+1]||0}</button></div>`).join('')}</div>
       <div class="totalrow"><span>Total semaine</span><b data-total="${esc(p.muscle_key)}">${total(p.muscle_key)} séries</b></div>
     </article>`
   }).join('');
 
-  v.querySelectorAll('input').forEach(i=>{
-    i.addEventListener('focus',()=>{ if(i.value==='0') i.select(); });
-    i.addEventListener('input',()=>{
-      let raw=i.value.replace(/[^0-9]/g,'');
-      if(raw!==i.value)i.value=raw;
-      const n=raw===''?0:Math.max(0,Math.min(99,parseInt(raw,10)||0));
-      updateSeriesLocal(i.dataset.m,+i.dataset.d,n);
-      queueSeriesSave(i.dataset.m,+i.dataset.d,n);
-    });
+  v.querySelectorAll('.series-input').forEach(btn=>{
+    btn.addEventListener('click',()=>openSeriesPad(btn));
   });
+}
+
+let seriesPadState={button:null,value:''};
+
+function ensureSeriesPad(){
+  if(document.querySelector('#seriesPad')) return;
+  const pad=document.createElement('div');
+  pad.id='seriesPad';
+  pad.className='series-pad-backdrop';
+  pad.innerHTML=`
+    <div class="series-pad" role="dialog" aria-modal="true" aria-label="Saisie des séries">
+      <div class="series-pad-head">
+        <span>SÉRIES</span>
+        <button type="button" class="series-pad-close" aria-label="Fermer">×</button>
+      </div>
+      <div class="series-pad-display" id="seriesPadDisplay">0</div>
+      <div class="series-pad-grid">
+        ${[1,2,3,4,5,6,7,8,9].map(n=>`<button type="button" data-key="${n}">${n}</button>`).join('')}
+        <button type="button" data-key="clear">C</button>
+        <button type="button" data-key="0">0</button>
+        <button type="button" data-key="back">⌫</button>
+      </div>
+    </div>`;
+  document.body.appendChild(pad);
+
+  pad.addEventListener('click',e=>{
+    if(e.target===pad || e.target.closest('.series-pad-close')){
+      closeSeriesPad();
+      return;
+    }
+    const key=e.target.closest('[data-key]')?.dataset.key;
+    if(!key) return;
+
+    if(key==='clear') seriesPadState.value='0';
+    else if(key==='back'){
+      seriesPadState.value=(seriesPadState.value||'0').slice(0,-1) || '0';
+    } else {
+      let v=seriesPadState.value==='0' ? '' : seriesPadState.value;
+      v=(v+key).slice(0,2);
+      seriesPadState.value=String(Math.min(99,parseInt(v||'0',10)));
+    }
+    applyPadValue();
+  });
+}
+
+function openSeriesPad(btn){
+  ensureSeriesPad();
+  seriesPadState.button=btn;
+  seriesPadState.value=String(parseInt(btn.textContent,10)||0);
+  document.querySelector('#seriesPadDisplay').textContent=seriesPadState.value;
+  document.querySelector('#seriesPad').classList.add('open');
+  document.body.classList.add('series-pad-open');
+}
+
+function applyPadValue(){
+  const btn=seriesPadState.button;
+  if(!btn) return;
+  const n=Math.max(0,Math.min(99,parseInt(seriesPadState.value||'0',10)||0));
+  btn.textContent=String(n);
+  document.querySelector('#seriesPadDisplay').textContent=String(n);
+  updateSeriesLocal(btn.dataset.m,+btn.dataset.d,n);
+  queueSeriesSave(btn.dataset.m,+btn.dataset.d,n);
+}
+
+function closeSeriesPad(){
+  document.querySelector('#seriesPad')?.classList.remove('open');
+  document.body.classList.remove('series-pad-open');
+  seriesPadState.button=null;
 }
 function updateSeriesLocal(m,d,n){
   let r=state.series.find(x=>+x.week===+state.week&&x.muscle_key===m&&+x.day===+d);

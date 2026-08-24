@@ -6,3 +6,93 @@
 
 /* v1.2 - Suivi hebdomadaire */
 .tracking-intro{margin:-3px 3px 12px;font:11px/1.45 Arial;color:#a99a80}.tracking-summary .kpi{min-height:78px}.tracking-summary .kpi b{font-size:24px}.tracking-summary .kpi span{display:block;margin-top:3px;line-height:1.25}.tracking-headline{display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px;border:1px solid #5a4524;border-radius:14px;background:linear-gradient(180deg,#211a10,#100d09);padding:13px 14px;margin:2px 0 12px}.tracking-headline small{display:block;font:700 8px Arial;letter-spacing:1.4px;color:#9f8b69}.tracking-headline strong{display:block;margin-top:3px;font-size:20px;color:#e4b95d}.tracking-headline div>span{font:10px Arial;color:#a99a80}.overall-ring{width:72px;height:72px;border-radius:50%;border:1px solid #604820;background:radial-gradient(circle,#1b150d 55%,#0b0906 57%);display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:inset 0 0 16px #d3a34610}.overall-ring b{font-size:18px!important;color:#e4b95d}.overall-ring span{font:8px Arial!important;color:#96866d!important}.tracking-card .status{font:700 9px Arial;text-align:right;max-width:108px}.tracking-card .status.high{color:#ff4937;text-shadow:0 0 8px #ff3a2f44}.tracking-numbers{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:11px;padding-top:10px;border-top:1px solid #2d2518}.tracking-numbers div{padding:7px 6px;border:1px solid #322818;border-radius:8px;background:#0d0b08;text-align:center}.tracking-numbers span{display:block;font:8px Arial;text-transform:uppercase;letter-spacing:.7px;color:#8f826c}.tracking-numbers b{display:block;margin-top:3px;font-size:14px;color:#dfb45b}.progress.target i{background:linear-gradient(90deg,#b78a38,#e0bb67)}.progress.over{border-color:#6f241c}.progress.over i{background:linear-gradient(90deg,#e34734,#ff4d39);box-shadow:0 0 8px #ff3d2f55}.progress.under i{background:linear-gradient(90deg,#c74b38,#d8a84b)}
+
+
+/* v1.2.5 — saisie séries sans clavier iOS / sans coche de validation */
+.series-input{
+  width:100%;
+  min-width:0;
+  height:42px;
+  border:1px solid rgba(202,156,66,.38);
+  border-radius:9px;
+  background:#0b0907;
+  color:#f5ead4;
+  font:inherit;
+  font-size:1.05rem;
+  font-weight:700;
+  text-align:center;
+  -webkit-tap-highlight-color:transparent;
+}
+.series-input:active,
+.series-input:focus{
+  outline:none;
+  border-color:#d7a84d;
+  box-shadow:0 0 0 2px rgba(215,168,77,.14) inset;
+}
+.series-pad-backdrop{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  display:none;
+  align-items:flex-end;
+  justify-content:center;
+  background:rgba(0,0,0,.45);
+  backdrop-filter:blur(2px);
+}
+.series-pad-backdrop.open{display:flex}
+.series-pad{
+  width:min(100%,520px);
+  padding:14px 16px max(18px,env(safe-area-inset-bottom));
+  border:1px solid rgba(202,156,66,.45);
+  border-bottom:0;
+  border-radius:20px 20px 0 0;
+  background:linear-gradient(180deg,#1a140d 0%,#0d0a07 100%);
+  box-shadow:0 -14px 40px rgba(0,0,0,.55);
+}
+.series-pad-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  color:#cda24b;
+  letter-spacing:.18em;
+  font-size:.72rem;
+  font-weight:800;
+  margin-bottom:8px;
+}
+.series-pad-close{
+  width:36px;height:36px;border-radius:10px;
+  border:1px solid rgba(202,156,66,.35);
+  background:#100c08;color:#e8c879;
+  font-size:1.4rem;line-height:1;
+}
+.series-pad-display{
+  height:54px;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:10px;
+  border:1px solid rgba(202,156,66,.35);
+  border-radius:12px;
+  background:#090705;
+  color:#f5ead4;
+  font-size:1.7rem;
+  font-weight:800;
+}
+.series-pad-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:9px;
+}
+.series-pad-grid button{
+  height:52px;
+  border:1px solid rgba(202,156,66,.34);
+  border-radius:12px;
+  background:#17110b;
+  color:#f5ead4;
+  font-size:1.15rem;
+  font-weight:800;
+  -webkit-tap-highlight-color:transparent;
+}
+.series-pad-grid button:active{
+  background:#cda24b;
+  color:#0a0704;
+}
+body.series-pad-open{overflow:hidden}
