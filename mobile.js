@@ -167,6 +167,36 @@ async function flushSeriesSave(k,m,d){
     saveTimers[k]=setTimeout(()=>flushSeriesSave(k,m,d),1200);
   }
 }
+function weeklyTodoRecap(){
+  const notStarted=state.priorities.filter(p=>total(p.muscle_key)===0);
+  const partial=state.priorities.filter(p=>{
+    const t=total(p.muscle_key);
+    return t>0 && t<(+p.target_min||0);
+  });
+
+  const chips = notStarted.length
+    ? notStarted.map(p=>`<span class="todo-chip ${p.priority.toLowerCase()}"><b>${esc(p.muscle_name)}</b><small>${p.priority} · ${p.target_min}–${p.target_max}</small></span>`).join('')
+    : `<div class="todo-empty">Tous les groupes ont été commencés cette semaine.</div>`;
+
+  const partialHtml = partial.length
+    ? `<div class="todo-partial"><span>À compléter</span>${partial.map(p=>{
+        const t=total(p.muscle_key);
+        const left=Math.max(0,(+p.target_min||0)-t);
+        return `<em>${esc(p.muscle_name)} · ${left} série${left>1?'s':''}</em>`;
+      }).join('')}</div>`
+    : '';
+
+  return `<section class="weekly-todo">
+    <div class="weekly-todo-head">
+      <div><small>RÉCAP HEBDO</small><h3>Reste à faire</h3></div>
+      <strong>${notStarted.length}</strong>
+    </div>
+    <p>Groupes musculaires encore non travaillés en S${state.week}.</p>
+    <div class="todo-chips">${chips}</div>
+    ${partialHtml}
+  </section>`;
+}
+
 function drawTracking(){
   const minimum=state.priorities.reduce((a,p)=>a+(+p.target_min||0),0);
   const done=state.priorities.reduce((a,p)=>a+total(p.muscle_key),0);
@@ -184,6 +214,7 @@ function drawTracking(){
     <div class="kpi"><b>${pct}%</b><span>avancement global</span></div>
   </div>`+
   `<section class="tracking-headline"><div><small>SEMAINE ${state.week}</small><strong>${atMin} / ${state.priorities.length}</strong><span>groupes au minimum</span></div><div class="overall-ring"><b>${pct}%</b><span>progression</span></div></section>`+
+  weeklyTodoRecap()+
   state.priorities.map(p=>{
     const t=total(p.muscle_key),[mi,ma]=pRange(p),left=Math.max(0,mi-t);
     const pc=mi?Math.min(100,Math.round(t/mi*100)):100;

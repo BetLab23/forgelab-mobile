@@ -32,3 +32,117 @@
   border-color:#d7a84d;
   box-shadow:0 0 0 2px rgba(215,168,77,.14) inset;
 }
+
+
+/* v1.3.1 — récap hebdo "Reste à faire" */
+.weekly-todo{
+  margin:14px 0 18px;
+  padding:15px;
+  border:1px solid rgba(202,156,66,.36);
+  border-radius:14px;
+  background:
+    linear-gradient(180deg,rgba(37,27,16,.96),rgba(18,13,9,.98));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.025);
+}
+.weekly-todo-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+.weekly-todo-head small{
+  display:block;
+  margin-bottom:3px;
+  color:#9f7b3c;
+  font-size:.65rem;
+  font-weight:800;
+  letter-spacing:.18em;
+}
+.weekly-todo-head h3{
+  margin:0;
+  color:#f3e7cf;
+  font-family:Georgia,serif;
+  font-size:1.18rem;
+  letter-spacing:.025em;
+}
+.weekly-todo-head>strong{
+  min-width:38px;
+  height:38px;
+  padding:0 8px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid rgba(202,156,66,.42);
+  border-radius:999px;
+  background:#0c0907;
+  color:#d5a84f;
+  font-size:1rem;
+}
+.weekly-todo>p{
+  margin:7px 0 12px;
+  color:#a9977b;
+  font-size:.78rem;
+}
+.todo-chips{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:8px;
+}
+.todo-chip{
+  min-width:0;
+  padding:10px 10px 9px;
+  border:1px solid rgba(255,255,255,.08);
+  border-left-width:3px;
+  border-radius:10px;
+  background:#100c09;
+}
+.todo-chip b{
+  display:block;
+  overflow:hidden;
+  color:#eee0c5;
+  font-size:.82rem;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.todo-chip small{
+  display:block;
+  margin-top:3px;
+  color:#8f806b;
+  font-size:.65rem;
+}
+.todo-chip.p0{border-left-color:#d65353}
+.todo-chip.p1{border-left-color:#c79a42}
+.todo-chip.p2{border-left-color:#71839c}
+.todo-empty{
+  grid-column:1/-1;
+  padding:12px;
+  border:1px dashed rgba(202,156,66,.25);
+  border-radius:10px;
+  color:#bfae91;
+  font-size:.78rem;
+  text-align:center;
+}
+.todo-partial{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-top:12px;
+  padding-top:10px;
+  border-top:1px solid rgba(202,156,66,.16);
+}
+.todo-partial>span{
+  width:100%;
+  color:#9f7b3c;
+  font-size:.65rem;
+  font-weight:800;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+.todo-partial em{
+  padding:5px 8px;
+  border:1px solid rgba(202,156,66,.20);
+  border-radius:999px;
+  color:#cbbb9e;
+  font-size:.7rem;
+  font-style:normal;
+}
