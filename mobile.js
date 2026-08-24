@@ -5,7 +5,27 @@ const delta={deficit:-1,surplus:1};function derivedRange(m,p){let base=ranges.ma
 function inferNutrition(){for(const r of state.priorities){const b=ranges.maintenance[r.muscle_name]?.[r.priority];if(!b)continue;if(+r.target_min===b[0]&&+r.target_max===b[1])return'maintenance';if(+r.target_min===Math.max(0,b[0]-1)&&+r.target_max===Math.max(0,b[1]-1))return'deficit';if(+r.target_min===b[0]+1&&+r.target_max===b[1]+1)return'surplus'}return'maintenance'}
 function hdr(extra={}){return{apikey:KEY,'Content-Type':'application/json',...extra}}async function req(path,opt={}){let r=await fetch(URL+path,{...opt,headers:hdr(opt.headers)});if(!r.ok)throw Error(await r.text());return r.status===204?null:r.json()}
 function cloud(t,c=''){let e=document.querySelector('#cloud');e.textContent='● CLOUD · '+t;e.className='cloud '+c}
-async function load(render=true){try{let[a,b,c]=await Promise.all([req('/forgelab_state?select=*&id=eq.main'),req('/forgelab_priorities?select=*&order=id.asc'),req('/forgelab_series?select=*&block_key=eq.main')]);state.block=a[0]?.active_block||'main';state.week=state.userWeek||a[0]?.active_week||1;state.priorities=b;state.series=c;cloud('SYNCHRONISÉ','ok');if(render)draw()}catch(e){console.error(e);cloud('HORS LIGNE','err')}}
+async function load(render=true){try{
+  let[a,b,c]=await Promise.all([
+    req('/forgelab_state?select=*&id=eq.main'),
+    req('/forgelab_priorities?select=*&order=id.asc'),
+    req('/forgelab_series?select=*&block_key=eq.main')
+  ]);
+
+  state.block=a[0]?.active_block||'main';
+  state.week=state.userWeek||a[0]?.active_week||1;
+  state.priorities=b;
+
+  // While a Series field is being edited, keep the local Series values.
+  // Cloud data can refresh again as soon as editing has finished.
+  const editingNow=(state.tab==='series' && typeof editingSeries!=='undefined' && editingSeries.size>0);
+  if(!editingNow) state.series=c;
+
+  cloud('SYNCHRONISÉ','ok');
+
+  // Never rebuild the Series DOM while the iOS keyboard is open.
+  if(render && !editingNow) draw();
+}catch(e){console.error(e);cloud('HORS LIGNE','err')}}
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}function rows(m){return state.series.filter(x=>+x.week===+state.week&&x.muscle_key===m)}function total(m){return rows(m).reduce((a,x)=>a+(+x.series||0),0)}function pRange(p){return[+p.target_min,+p.target_max]}
 function weeks(){let d=document.querySelector('#weekDots');d.innerHTML=Array.from({length:13},(_,i)=>`<button class="${state.week===i+1?'active':''}" data-w="${i+1}">${i+1}</button>`).join('');d.querySelectorAll('button').forEach(b=>b.onclick=()=>setWeek(+b.dataset.w))}
 async function setWeek(w){state.week=Math.min(13,Math.max(1,w));state.userWeek=state.week;await req('/forgelab_state?id=eq.main',{method:'PATCH',headers:{Prefer:'return=minimal'},body:JSON.stringify({active_week:state.week,updated_at:new Date().toISOString()})});draw()}
@@ -53,7 +73,10 @@ function wireSeriesInputs(v){
 
     i.addEventListener('blur',()=>{
       const key=seriesEditKey(i);
-      setTimeout(()=>editingSeries.delete(key), 1600);
+      setTimeout(async()=>{
+        editingSeries.delete(key);
+        if(editingSeries.size===0) await load(false);
+      }, 350);
     });
   });
 }
@@ -74,7 +97,7 @@ function queueSeriesSave(m,d,n){
   const k=`${state.week}|${m}|${d}`;
   clearTimeout(saveTimers[k]);
   cloud('ENREGISTREMENT…');
-  saveTimers[k]=setTimeout(()=>saveSeries(m,d,n),1400);
+  saveTimers[k]=setTimeout(()=>saveSeries(m,d,n),300);
 }
 async function saveSeries(m,d,n){
   n=Math.max(0,Math.round(n||0));
