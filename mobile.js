@@ -58,22 +58,42 @@ function seriesEditKey(el){
 
 function wireSeriesInputs(v){
   v.querySelectorAll('.series-input').forEach(i=>{
+    i.dataset.lastValid = i.value || '0';
+
     i.addEventListener('focus',()=>{
       editingSeries.add(seriesEditKey(i));
+      i.dataset.lastValid = i.value || '0';
       if(i.value==='0') i.select();
     });
 
     i.addEventListener('input',()=>{
       let raw=i.value.replace(/[^0-9]/g,'');
       if(raw!==i.value) i.value=raw;
-      const n=raw==='' ? 0 : Math.max(0,Math.min(99,parseInt(raw,10)||0));
+
       editingSeries.add(seriesEditKey(i));
+
+      // IMPORTANT iOS:
+      // When replacing a selected "0", Safari can briefly emit an empty value
+      // before the user's digit arrives. Empty is therefore treated as a
+      // transient editing state and is NEVER saved as 0.
+      if(raw==='') return;
+
+      const n=Math.max(0,Math.min(99,parseInt(raw,10)||0));
+      i.value=String(n);
+      i.dataset.lastValid=String(n);
+
       updateSeriesLocal(i.dataset.m,+i.dataset.d,n);
       queueSeriesSave(i.dataset.m,+i.dataset.d,n);
     });
 
     i.addEventListener('blur',()=>{
       const key=seriesEditKey(i);
+
+      // If iOS leaves the field temporarily empty, restore the last real value.
+      if(i.value===''){
+        i.value=i.dataset.lastValid || '0';
+      }
+
       setTimeout(()=>editingSeries.delete(key), 250);
     });
   });
@@ -95,7 +115,7 @@ function queueSeriesSave(m,d,n){
   const k=`${state.week}|${m}|${d}`;
   clearTimeout(saveTimers[k]);
   cloud('ENREGISTREMENT…');
-  saveTimers[k]=setTimeout(()=>saveSeries(m,d,n),500);
+  saveTimers[k]=setTimeout(()=>saveSeries(m,d,n),650);
 }
 async function saveSeries(m,d,n){
   n=Math.max(0,Math.round(n||0));
