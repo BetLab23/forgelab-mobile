@@ -16,5 +16,34 @@ function drawPriorities(){let v=document.querySelector('#view'),counts={P0:0,P1:
 async function changePriority(muscleKey,priority){let p=state.priorities.find(x=>x.muscle_key===muscleKey);if(!p)return;let[min,max]=derivedRange(p.muscle_name,priority);cloud('ENREGISTREMENT…');await req('/forgelab_priorities?muscle_key=eq.'+encodeURIComponent(muscleKey),{method:'PATCH',headers:{Prefer:'return=minimal'},body:JSON.stringify({priority,target_min:min,target_max:max,updated_at:new Date().toISOString()})});await load()}
 function drawSeries(){let v=document.querySelector('#view');v.innerHTML=title('Séries / semaine')+state.priorities.map(p=>{let map=Object.fromEntries(rows(p.muscle_key).map(x=>[+x.day,+x.series]));return`<article class="card ${p.priority.toLowerCase()}"><div class="cardhead"><div><div class="muscle">${esc(p.muscle_name)}</div><div class="range">Cible ${p.target_min}–${p.target_max}</div></div><span class="badge">${p.priority}</span></div><div class="days">${DAYS.map((d,i)=>`<div class="day"><label>${d}</label><input inputmode="numeric" pattern="[0-9]*" value="${map[i+1]||0}" data-m="${esc(p.muscle_key)}" data-d="${i+1}"></div>`).join('')}</div><div class="totalrow"><span>Total semaine</span><b>${total(p.muscle_key)} séries</b></div></article>`}).join('');v.querySelectorAll('input').forEach(i=>i.onchange=()=>saveSeries(i.dataset.m,+i.dataset.d,+i.value))}
 async function saveSeries(m,d,n){n=Math.max(0,Math.round(n||0));cloud('ENREGISTREMENT…');let path=`/forgelab_series?block_key=eq.main&week=eq.${state.week}&muscle_key=eq.${encodeURIComponent(m)}&day=eq.${d}`;if(n===0)await req(path,{method:'DELETE',headers:{Prefer:'return=minimal'}});else await req('/forgelab_series?on_conflict=block_key,week,muscle_key,day',{method:'POST',headers:{Prefer:'resolution=merge-duplicates,return=minimal'},body:JSON.stringify([{block_key:'main',week:state.week,muscle_key:m,day:d,series:n,updated_at:new Date().toISOString()}])});await load()}
-function drawTracking(){let min=state.priorities.reduce((a,p)=>a+pRange(p)[0],0),done=state.priorities.reduce((a,p)=>a+total(p.muscle_key),0),remain=Math.max(0,min-done),pct=min?Math.round(done/min*100):0;let v=document.querySelector('#view');v.innerHTML=title('Suivi hebdomadaire')+`<div class="summary"><div class="kpi"><b>${done} / ${min}</b><span>séries / minimum</span></div><div class="kpi"><b>${pct}%</b><span>avancement global</span></div><div class="kpi"><b>${remain}</b><span>restantes minimum</span></div><div class="kpi"><b>${state.priorities.filter(p=>total(p.muscle_key)>=+p.target_min).length}</b><span>groupes au minimum</span></div></div>`+state.priorities.map(p=>{let t=total(p.muscle_key),[mi,ma]=pRange(p),pc=mi?Math.min(100,Math.round(t/mi*100)):100,st=t<mi?['Sous la cible','low']:t>ma?['Maximum dépassé','high']:['Dans la cible','ok'];return`<article class="card ${p.priority.toLowerCase()}"><div class="cardhead"><div><div class="muscle">${esc(p.muscle_name)}</div><div class="range">${p.priority} · cible ${mi}–${ma}</div></div><span class="status ${st[1]}">${st[0]}</span></div><div class="progress"><i style="width:${pc}%"></i></div><div class="trackline"><span>${pc}% du minimum</span><strong>${t} / ${mi}</strong></div></article>`}).join('')}
+function drawTracking(){
+  const minimum=state.priorities.reduce((a,p)=>a+(+p.target_min||0),0);
+  const done=state.priorities.reduce((a,p)=>a+total(p.muscle_key),0);
+  const remain=state.priorities.reduce((a,p)=>a+Math.max(0,(+p.target_min||0)-total(p.muscle_key)),0);
+  const credited=state.priorities.reduce((a,p)=>a+Math.min(total(p.muscle_key),(+p.target_min||0)),0);
+  const pct=minimum?Math.round(credited/minimum*100):0;
+  const atMin=state.priorities.filter(p=>total(p.muscle_key)>=(+p.target_min||0)).length;
+  let v=document.querySelector('#view');
+  v.innerHTML=title('Suivi hebdomadaire')+
+  `<p class="tracking-intro">Compare les cibles définies dans « Priorités » aux séries renseignées dans « Séries / semaine ».</p>`+
+  `<div class="summary tracking-summary">
+    <div class="kpi"><b>${minimum}</b><span>minimum recommandé cumulé</span></div>
+    <div class="kpi"><b>${done}</b><span>séries réalisées</span></div>
+    <div class="kpi"><b>${remain}</b><span>restantes jusqu’aux minimums</span></div>
+    <div class="kpi"><b>${pct}%</b><span>avancement global</span></div>
+  </div>`+
+  `<section class="tracking-headline"><div><small>SEMAINE ${state.week}</small><strong>${atMin} / ${state.priorities.length}</strong><span>groupes au minimum</span></div><div class="overall-ring"><b>${pct}%</b><span>progression</span></div></section>`+
+  state.priorities.map(p=>{
+    const t=total(p.muscle_key),[mi,ma]=pRange(p),left=Math.max(0,mi-t);
+    const pc=mi?Math.min(100,Math.round(t/mi*100)):100;
+    const st=t<mi?['Sous la cible','low']:t>ma?['Maximum dépassé','high']:['Dans la cible','ok'];
+    const barClass=t>ma?'over':t>=mi?'target':'under';
+    return`<article class="card ${p.priority.toLowerCase()} tracking-card">
+      <div class="cardhead"><div><div class="muscle">${esc(p.muscle_name)}</div><div class="range">Priorité ${p.priority} · cible ${mi}–${ma}</div></div><span class="status ${st[1]}">${st[0]}</span></div>
+      <div class="tracking-numbers"><div><span>Prévu</span><b>${mi}–${ma}</b></div><div><span>Réalisé</span><b>${t}</b></div><div><span>Reste</span><b>${left}</b></div></div>
+      <div class="progress ${barClass}"><i style="width:${pc}%"></i></div>
+      <div class="trackline"><span>${pc}% du minimum</span><strong>${t} / ${mi}</strong></div>
+    </article>`
+  }).join('')
+}
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{state.tab=b.dataset.tab;draw()});document.querySelector('#prevWeek').onclick=()=>setWeek(state.week-1);document.querySelector('#nextWeek').onclick=()=>setWeek(state.week+1);load();poll=setInterval(()=>load(true),4000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)load()});
