@@ -18,7 +18,8 @@ async function load(render=true){try{
 
   // While a Series field is being edited, keep the local Series values.
   // Cloud data can refresh again as soon as editing has finished.
-  const editingNow=(state.tab==='series' && typeof editingSeries!=='undefined' && editingSeries.size>0);
+  const focusedSeries = document.activeElement && document.activeElement.classList?.contains('series-input');
+  const editingNow = state.tab==='series' && (focusedSeries || (typeof editingSeries!=='undefined' && editingSeries.size>0));
   if(!editingNow) state.series=c;
 
   cloud('SYNCHRONISÉ','ok');
@@ -73,10 +74,7 @@ function wireSeriesInputs(v){
 
     i.addEventListener('blur',()=>{
       const key=seriesEditKey(i);
-      setTimeout(async()=>{
-        editingSeries.delete(key);
-        if(editingSeries.size===0) await load(false);
-      }, 350);
+      setTimeout(()=>editingSeries.delete(key), 250);
     });
   });
 }
@@ -97,7 +95,7 @@ function queueSeriesSave(m,d,n){
   const k=`${state.week}|${m}|${d}`;
   clearTimeout(saveTimers[k]);
   cloud('ENREGISTREMENT…');
-  saveTimers[k]=setTimeout(()=>saveSeries(m,d,n),300);
+  saveTimers[k]=setTimeout(()=>saveSeries(m,d,n),500);
 }
 async function saveSeries(m,d,n){
   n=Math.max(0,Math.round(n||0));
@@ -145,4 +143,8 @@ function drawTracking(){
     </article>`
   }).join('')
 }
-document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{state.tab=b.dataset.tab;draw()});document.querySelector('#prevWeek').onclick=()=>setWeek(state.week-1);document.querySelector('#nextWeek').onclick=()=>setWeek(state.week+1);load();poll=setInterval(()=>load(true),4000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)load()});
+document.querySelectorAll('nav button').forEach(b=>b.onclick=async()=>{
+  state.tab=b.dataset.tab;
+  await load(false);
+  draw();
+});document.querySelector('#prevWeek').onclick=()=>setWeek(state.week-1);document.querySelector('#nextWeek').onclick=()=>setWeek(state.week+1);load();poll=setInterval(()=>load(state.tab!=='series'),12000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)load()});
