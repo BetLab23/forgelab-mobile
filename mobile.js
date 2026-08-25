@@ -1,15 +1,84 @@
 const URL='https://ocakkunttbjmlvljekbu.supabase.co/rest/v1',KEY='sb_publishable_qgTkkrzwbyWthC_zwWHKcw_PWyrwFKx';
 const DAYS=['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];let state={week:1,tab:'series',block:'main',priorities:[],series:[]},poll;
+let authSession=null,currentUser=null,authMode='login';
+const AUTH_BASE=URL.replace('/rest/v1','');
 const ranges={maintenance:{'Cou':{P0:[8,12],P1:[5,8],P2:[2,4]},'Trapèzes supérieurs':{P0:[12,16],P1:[8,12],P2:[4,6]},'Trapèzes moyens':{P0:[12,16],P1:[8,12],P2:[4,6]},'Deltoïde antérieur':{P0:[8,12],P1:[6,8],P2:[2,4]},'Deltoïde latéral':{P0:[12,18],P1:[8,12],P2:[4,6]},'Deltoïde postérieur':{P0:[12,16],P1:[8,12],P2:[4,6]},'Pectoraux':{P0:[12,18],P1:[8,12],P2:[4,6]},'Dos':{P0:[12,18],P1:[8,12],P2:[4,6]},'Biceps':{P0:[12,16],P1:[8,12],P2:[4,6]},'Triceps':{P0:[12,18],P1:[8,12],P2:[4,6]},'Avant-bras':{P0:[8,12],P1:[6,8],P2:[2,4]},'Abdominaux':{P0:[8,12],P1:[6,8],P2:[2,4]},'Quadriceps':{P0:[12,18],P1:[8,12],P2:[4,6]},'Adducteurs':{P0:[8,12],P1:[6,8],P2:[2,4]},'Ischios':{P0:[10,16],P1:[6,10],P2:[3,5]},'Fessiers':{P0:[12,18],P1:[8,12],P2:[4,6]},'Mollets':{P0:[9,12],P1:[6,9],P2:[3,5]}}};
 const delta={deficit:-1,surplus:1};function derivedRange(m,p){let base=ranges.maintenance[m]?.[p]||[0,0],mode=inferNutrition();if(mode==='maintenance')return base;return base.map(x=>Math.max(0,x+(delta[mode]||0)))}
 function inferNutrition(){for(const r of state.priorities){const b=ranges.maintenance[r.muscle_name]?.[r.priority];if(!b)continue;if(+r.target_min===b[0]&&+r.target_max===b[1])return'maintenance';if(+r.target_min===Math.max(0,b[0]-1)&&+r.target_max===Math.max(0,b[1]-1))return'deficit';if(+r.target_min===b[0]+1&&+r.target_max===b[1]+1)return'surplus'}return'maintenance'}
-function hdr(extra={}){return{apikey:KEY,'Content-Type':'application/json',...extra}}async function req(path,opt={}){let r=await fetch(URL+path,{...opt,headers:hdr(opt.headers)});if(!r.ok)throw Error(await r.text());return r.status===204?null:r.json()}
+function hdr(extra={}){return{apikey:KEY,Authorization:`Bearer ${authSession?.access_token||KEY}`,'Content-Type':'application/json',...extra}}
+async function req(path,opt={}){let r=await fetch(URL+path,{...opt,headers:hdr(opt.headers)});if(!r.ok)throw Error(await r.text());return r.status===204?null:r.json()}
+function uid(){if(!currentUser?.id)throw Error('Utilisateur non connecté');return currentUser.id}
+function saveAuth(s){authSession=s||null;currentUser=s?.user||null;s?localStorage.setItem('forgelabMobileAuth',JSON.stringify(s)):localStorage.removeItem('forgelabMobileAuth')}
+async function authFetch(path,body){
+  const r=await fetch(`${AUTH_BASE}/auth/v1/${path}`,{method:'POST',headers:{apikey:KEY,'Content-Type':'application/json'},body:JSON.stringify(body)});
+  const txt=await r.text();let d={};try{d=txt?JSON.parse(txt):{}}catch(_){}
+  if(!r.ok)throw Error(d?.msg||d?.error_description||d?.message||'Connexion impossible');
+  return d
+}
+async function restoreAuth(){
+  const raw=localStorage.getItem('forgelabMobileAuth');if(!raw)return false;
+  try{
+    let s=JSON.parse(raw);if(!s?.access_token)return false;
+    let r=await fetch(`${AUTH_BASE}/auth/v1/user`,{headers:{apikey:KEY,Authorization:`Bearer ${s.access_token}`}});
+    if(!r.ok&&s.refresh_token){
+      s=await authFetch('token?grant_type=refresh_token',{refresh_token:s.refresh_token});
+      saveAuth(s);
+      r=await fetch(`${AUTH_BASE}/auth/v1/user`,{headers:{apikey:KEY,Authorization:`Bearer ${s.access_token}`}});
+    }
+    if(!r.ok)throw Error('Session expirée');
+    const user=await r.json();s.user=user;saveAuth(s);return true;
+  }catch(e){saveAuth(null);return false}
+}
+async function login(email,password){const s=await authFetch('token?grant_type=password',{email,password});saveAuth(s)}
+async function signup(email,password){const s=await authFetch('signup',{email,password});if(s?.access_token)saveAuth(s);return s}
+async function logout(){
+  try{if(authSession?.access_token)await fetch(`${AUTH_BASE}/auth/v1/logout`,{method:'POST',headers:{apikey:KEY,Authorization:`Bearer ${authSession.access_token}`}})}catch(_){}
+  clearInterval(poll);saveAuth(null);showAuth()
+}
+function showAuth(message=''){
+  document.body.classList.add('auth-locked');
+  let box=document.querySelector('#authOverlay');
+  if(!box){box=document.createElement('div');box.id='authOverlay';document.body.appendChild(box)}
+  box.innerHTML=`<main class="auth-screen"><section class="auth-card">
+    <div class="auth-mark">⚒</div>
+    <div class="auth-brand">FORGELAB</div>
+    <div class="auth-sub">ATLAS · ESPACE PERSONNEL</div>
+    <div class="auth-tabs">
+      <button class="${authMode==='login'?'active':''}" data-mode="login">Connexion</button>
+      <button class="${authMode==='signup'?'active':''}" data-mode="signup">Créer un compte</button>
+    </div>
+    <label>E-mail</label><input id="authEmail" type="email" autocomplete="email">
+    <label>Mot de passe</label><input id="authPassword" type="password" autocomplete="${authMode==='login'?'current-password':'new-password'}">
+    <button id="authSubmit" class="auth-submit">${authMode==='login'?'Entrer dans la Forge':'Créer mon compte'}</button>
+    <div class="auth-message">${message||''}</div>
+  </section></main>`;
+  box.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{authMode=b.dataset.mode;showAuth()});
+  box.querySelector('#authSubmit').onclick=async()=>{
+    const email=box.querySelector('#authEmail').value.trim(),password=box.querySelector('#authPassword').value;
+    if(!email||!password){showAuth('Renseigne ton e-mail et ton mot de passe.');return}
+    try{
+      if(authMode==='login'){await login(email,password);hideAuth();await boot()}
+      else{
+        const s=await signup(email,password);
+        if(s?.access_token){hideAuth();await boot()}
+        else showAuth('Compte créé. Vérifie ton e-mail si une confirmation est demandée.')
+      }
+    }catch(e){showAuth(e.message)}
+  }
+}
+function hideAuth(){document.body.classList.remove('auth-locked');document.querySelector('#authOverlay')?.remove()}
+function ensureAccountButton(){
+  if(!currentUser)return;
+  let b=document.querySelector('#accountBtn');
+  if(!b){b=document.createElement('button');b.id='accountBtn';b.className='account-btn';b.onclick=logout;document.body.appendChild(b)}
+  b.innerHTML=`<span>${esc((currentUser.email||'Compte').split('@')[0])}</span><small>Déconnexion</small>`
+}
 function cloud(t,c=''){let e=document.querySelector('#cloud');e.textContent='● CLOUD · '+t;e.className='cloud '+c}
 async function load(render=true){try{
   let[a,b,c]=await Promise.all([
-    req('/forgelab_state?select=*&id=eq.main'),
-    req('/forgelab_priorities?select=*&order=id.asc'),
-    req('/forgelab_series?select=*&block_key=eq.main')
+    req(`/forgelab_state?select=*&id=eq.main&user_id=eq.${encodeURIComponent(uid())}`),
+    req(`/forgelab_priorities?select=*&user_id=eq.${encodeURIComponent(uid())}&order=id.asc`),
+    req(`/forgelab_series?select=*&block_key=eq.main&user_id=eq.${encodeURIComponent(uid())}`)
   ]);
 
   state.block=a[0]?.active_block||'main';
@@ -30,12 +99,12 @@ async function load(render=true){try{
 }catch(e){console.error(e);cloud('HORS LIGNE','err')}}
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}function rows(m){return state.series.filter(x=>+x.week===+state.week&&x.muscle_key===m)}function total(m){return rows(m).reduce((a,x)=>a+(+x.series||0),0)}function pRange(p){return[+p.target_min,+p.target_max]}
 function weeks(){let d=document.querySelector('#weekDots');d.innerHTML=Array.from({length:13},(_,i)=>`<button class="${state.week===i+1?'active':''}" data-w="${i+1}">${i+1}</button>`).join('');d.querySelectorAll('button').forEach(b=>b.onclick=()=>setWeek(+b.dataset.w))}
-async function setWeek(w){state.week=Math.min(13,Math.max(1,w));state.userWeek=state.week;await req('/forgelab_state?id=eq.main',{method:'PATCH',headers:{Prefer:'return=minimal'},body:JSON.stringify({active_week:state.week,updated_at:new Date().toISOString()})});draw()}
-function draw(){document.querySelector('#weekTitle').textContent='S'+state.week;document.querySelector('#blockTitle').textContent=state.block==='main'?'Bloc actif':state.block;weeks();document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.tab===state.tab));state.tab==='priorities'?drawPriorities():state.tab==='tracking'?drawTracking():drawSeries()}
+async function setWeek(w){state.week=Math.min(13,Math.max(1,w));state.userWeek=state.week;await req(`/forgelab_state?id=eq.main&user_id=eq.${encodeURIComponent(uid())}`,{method:'PATCH',headers:{Prefer:'return=minimal'},body:JSON.stringify({active_week:state.week,updated_at:new Date().toISOString()})});draw()}
+function draw(){ensureAccountButton();document.querySelector('#weekTitle').textContent='S'+state.week;document.querySelector('#blockTitle').textContent=state.block==='main'?'Bloc actif':state.block;weeks();document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.tab===state.tab));state.tab==='priorities'?drawPriorities():state.tab==='tracking'?drawTracking():drawSeries()}
 function title(t){return`<h2 class="section-title">${t}</h2>`}
 function nutritionLabel(){return inferNutrition()==='deficit'?'Déficit':inferNutrition()==='surplus'?'Surplus':'Maintien'}
 function drawPriorities(){let v=document.querySelector('#view'),counts={P0:0,P1:0,P2:0};state.priorities.forEach(p=>counts[p.priority]=(counts[p.priority]||0)+1);v.innerHTML=title('Priorités')+`<section class="priority-overview"><div><small>CONTEXTE DU BLOC</small><strong>${nutritionLabel()}</strong></div><div class="priority-counts"><span class="pc0">P0 · ${counts.P0}</span><span class="pc1">P1 · ${counts.P1}</span><span class="pc2">P2 · ${counts.P2}</span></div><p>Les cibles sont synchronisées avec ForgeLab PC. Touchez P0, P1 ou P2 pour modifier une priorité.</p></section>`+state.priorities.map(p=>{let t=total(p.muscle_key);return`<article class="card ${p.priority.toLowerCase()} priority-card"><div class="cardhead"><div><div class="muscle">${esc(p.muscle_name)}</div><div class="range">Cible · <b>${p.target_min}–${p.target_max}</b> séries / semaine</div></div><span class="badge">${p.priority}</span></div><div class="priority-meta"><span>S${state.week} actuellement</span><strong>${t} séries</strong></div><div class="prio-buttons">${['P0','P1','P2'].map(x=>`<button data-m="${esc(p.muscle_key)}" data-p="${x}" class="${p.priority===x?'selected':''}">${x}<small>${derivedRange(p.muscle_name,x).join('–')}</small></button>`).join('')}</div></article>`}).join('');v.querySelectorAll('.prio-buttons button').forEach(b=>b.onclick=()=>changePriority(b.dataset.m,b.dataset.p))}
-async function changePriority(muscleKey,priority){let p=state.priorities.find(x=>x.muscle_key===muscleKey);if(!p)return;let[min,max]=derivedRange(p.muscle_name,priority);cloud('ENREGISTREMENT…');await req('/forgelab_priorities?muscle_key=eq.'+encodeURIComponent(muscleKey),{method:'PATCH',headers:{Prefer:'return=minimal'},body:JSON.stringify({priority,target_min:min,target_max:max,updated_at:new Date().toISOString()})});await load()}
+async function changePriority(muscleKey,priority){let p=state.priorities.find(x=>x.muscle_key===muscleKey);if(!p)return;let[min,max]=derivedRange(p.muscle_name,priority);cloud('ENREGISTREMENT…');await req('/forgelab_priorities?user_id=eq.'+encodeURIComponent(uid())+'&muscle_key=eq.'+encodeURIComponent(muscleKey),{method:'PATCH',headers:{Prefer:'return=minimal'},body:JSON.stringify({priority,target_min:min,target_max:max,updated_at:new Date().toISOString()})});await load()}
 let saveTimers={};
 let saveState={}; // per-cell serialized cloud writes; latest value always wins
 
@@ -131,15 +200,16 @@ async function flushSeriesSave(k,m,d){
   slot.lastSent=n;
 
   try{
-    const path=`/forgelab_series?block_key=eq.main&week=eq.${state.week}&muscle_key=eq.${encodeURIComponent(m)}&day=eq.${d}`;
+    const path=`/forgelab_series?user_id=eq.${encodeURIComponent(uid())}&block_key=eq.main&week=eq.${state.week}&muscle_key=eq.${encodeURIComponent(m)}&day=eq.${d}`;
 
     if(n===0){
       await req(path,{method:'DELETE',headers:{Prefer:'return=minimal'}});
     }else{
-      await req('/forgelab_series?on_conflict=block_key,week,muscle_key,day',{
+      await req('/forgelab_series?on_conflict=user_id,block_key,week,muscle_key,day',{
         method:'POST',
         headers:{Prefer:'resolution=merge-duplicates,return=minimal'},
         body:JSON.stringify([{
+          user_id:uid(),
           block_key:'main',
           week:state.week,
           muscle_key:m,
@@ -232,4 +302,7 @@ document.querySelectorAll('nav button').forEach(b=>b.onclick=async()=>{
   state.tab=b.dataset.tab;
   await load(false);
   draw();
-});document.querySelector('#prevWeek').onclick=()=>setWeek(state.week-1);document.querySelector('#nextWeek').onclick=()=>setWeek(state.week+1);load();poll=setInterval(()=>load(state.tab!=='series'),12000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)load()});
+});document.querySelector('#prevWeek').onclick=()=>setWeek(state.week-1);document.querySelector('#nextWeek').onclick=()=>setWeek(state.week+1);
+async function boot(){await load();clearInterval(poll);poll=setInterval(()=>load(state.tab!=='series'),12000)}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&currentUser)load()});
+(async()=>{if(await restoreAuth()){hideAuth();await boot()}else showAuth()})();
