@@ -2,6 +2,13 @@ const URL='https://ocakkunttbjmlvljekbu.supabase.co/rest/v1',KEY='sb_publishable
 const DAYS=['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];let state={week:1,tab:'series',block:'main',priorities:[],series:[]},poll;
 let authSession=null,currentUser=null,authMode='login';
 const AUTH_BASE=URL.replace('/rest/v1','');
+const EMAILS_KEY='forgelabMobileKnownEmails';
+function knownEmails(){try{return JSON.parse(localStorage.getItem(EMAILS_KEY)||'[]').filter(Boolean)}catch(_){return[]}}
+function rememberEmail(email){email=String(email||'').trim().toLowerCase();if(!email)return;const all=[email,...knownEmails().filter(x=>x!==email)].slice(0,8);localStorage.setItem(EMAILS_KEY,JSON.stringify(all))}
+function disabledKey(){return `forgelabMobileDisabled:${currentUser?.id||'guest'}`}
+function disabledMuscles(){try{return new Set(JSON.parse(localStorage.getItem(disabledKey())||'[]'))}catch(_){return new Set()}}
+function setMuscleEnabled(muscleKey,enabled){const off=disabledMuscles();enabled?off.delete(muscleKey):off.add(muscleKey);localStorage.setItem(disabledKey(),JSON.stringify([...off]));draw()}
+function activePriorities(){const off=disabledMuscles();return state.priorities.filter(p=>!off.has(p.muscle_key))}
 const ranges={maintenance:{'Cou':{P0:[8,12],P1:[5,8],P2:[2,4]},'Trapèzes supérieurs':{P0:[12,16],P1:[8,12],P2:[4,6]},'Trapèzes moyens':{P0:[12,16],P1:[8,12],P2:[4,6]},'Deltoïde antérieur':{P0:[8,12],P1:[6,8],P2:[2,4]},'Deltoïde latéral':{P0:[12,18],P1:[8,12],P2:[4,6]},'Deltoïde postérieur':{P0:[12,16],P1:[8,12],P2:[4,6]},'Pectoraux':{P0:[12,18],P1:[8,12],P2:[4,6]},'Dos':{P0:[12,18],P1:[8,12],P2:[4,6]},'Biceps':{P0:[12,16],P1:[8,12],P2:[4,6]},'Triceps':{P0:[12,18],P1:[8,12],P2:[4,6]},'Avant-bras':{P0:[8,12],P1:[6,8],P2:[2,4]},'Abdominaux':{P0:[8,12],P1:[6,8],P2:[2,4]},'Quadriceps':{P0:[12,18],P1:[8,12],P2:[4,6]},'Adducteurs':{P0:[8,12],P1:[6,8],P2:[2,4]},'Ischios':{P0:[10,16],P1:[6,10],P2:[3,5]},'Fessiers':{P0:[12,18],P1:[8,12],P2:[4,6]},'Mollets':{P0:[9,12],P1:[6,9],P2:[3,5]}}};
 const delta={deficit:-1,surplus:1};function derivedRange(m,p){let base=ranges.maintenance[m]?.[p]||[0,0],mode=inferNutrition();if(mode==='maintenance')return base;return base.map(x=>Math.max(0,x+(delta[mode]||0)))}
 function inferNutrition(){for(const r of state.priorities){const b=ranges.maintenance[r.muscle_name]?.[r.priority];if(!b)continue;if(+r.target_min===b[0]&&+r.target_max===b[1])return'maintenance';if(+r.target_min===Math.max(0,b[0]-1)&&+r.target_max===Math.max(0,b[1]-1))return'deficit';if(+r.target_min===b[0]+1&&+r.target_max===b[1]+1)return'surplus'}return'maintenance'}
@@ -29,8 +36,8 @@ async function restoreAuth(){
     const user=await r.json();s.user=user;saveAuth(s);return true;
   }catch(e){saveAuth(null);return false}
 }
-async function login(email,password){const s=await authFetch('token?grant_type=password',{email,password});saveAuth(s)}
-async function signup(email,password){const s=await authFetch('signup',{email,password});if(s?.access_token)saveAuth(s);return s}
+async function login(email,password){const s=await authFetch('token?grant_type=password',{email,password});saveAuth(s);rememberEmail(email)}
+async function signup(email,password){const s=await authFetch('signup',{email,password});rememberEmail(email);if(s?.access_token)saveAuth(s);return s}
 async function logout(){
   try{if(authSession?.access_token)await fetch(`${AUTH_BASE}/auth/v1/logout`,{method:'POST',headers:{apikey:KEY,Authorization:`Bearer ${authSession.access_token}`}})}catch(_){}
   clearInterval(poll);saveAuth(null);showAuth()
@@ -47,12 +54,13 @@ function showAuth(message=''){
       <button class="${authMode==='login'?'active':''}" data-mode="login">Connexion</button>
       <button class="${authMode==='signup'?'active':''}" data-mode="signup">Créer un compte</button>
     </div>
-    <label>E-mail</label><input id="authEmail" type="email" autocomplete="email">
+    <label>E-mail</label><input id="authEmail" type="email" autocomplete="email" list="knownEmails" value="${esc(knownEmails()[0]||'')}"><datalist id="knownEmails">${knownEmails().map(e=>`<option value="${esc(e)}"></option>`).join('')}</datalist>${knownEmails().length?`<div class="known-emails">${knownEmails().map(e=>`<button type="button" data-email="${esc(e)}">${esc(e)}</button>`).join('')}</div>`:''}
     <label>Mot de passe</label><input id="authPassword" type="password" autocomplete="${authMode==='login'?'current-password':'new-password'}">
     <button id="authSubmit" class="auth-submit">${authMode==='login'?'Entrer dans la Forge':'Créer mon compte'}</button>
     <div class="auth-message">${message||''}</div>
   </section></main>`;
   box.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{authMode=b.dataset.mode;showAuth()});
+  box.querySelectorAll('[data-email]').forEach(b=>b.onclick=()=>{box.querySelector('#authEmail').value=b.dataset.email;box.querySelector('#authPassword').focus()});
   box.querySelector('#authSubmit').onclick=async()=>{
     const email=box.querySelector('#authEmail').value.trim(),password=box.querySelector('#authPassword').value;
     if(!email||!password){showAuth('Renseigne ton e-mail et ton mot de passe.');return}
@@ -103,14 +111,14 @@ async function setWeek(w){state.week=Math.min(13,Math.max(1,w));state.userWeek=s
 function draw(){ensureAccountButton();document.querySelector('#weekTitle').textContent='S'+state.week;document.querySelector('#blockTitle').textContent=state.block==='main'?'Bloc actif':state.block;weeks();document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.tab===state.tab));state.tab==='priorities'?drawPriorities():state.tab==='tracking'?drawTracking():drawSeries()}
 function title(t){return`<h2 class="section-title">${t}</h2>`}
 function nutritionLabel(){return inferNutrition()==='deficit'?'Déficit':inferNutrition()==='surplus'?'Surplus':'Maintien'}
-function drawPriorities(){let v=document.querySelector('#view'),counts={P0:0,P1:0,P2:0};state.priorities.forEach(p=>counts[p.priority]=(counts[p.priority]||0)+1);v.innerHTML=title('Priorités')+`<section class="priority-overview"><div><small>CONTEXTE DU BLOC</small><strong>${nutritionLabel()}</strong></div><div class="priority-counts"><span class="pc0">P0 · ${counts.P0}</span><span class="pc1">P1 · ${counts.P1}</span><span class="pc2">P2 · ${counts.P2}</span></div><p>Les cibles sont synchronisées avec ForgeLab PC. Touchez P0, P1 ou P2 pour modifier une priorité.</p></section>`+state.priorities.map(p=>{let t=total(p.muscle_key);return`<article class="card ${p.priority.toLowerCase()} priority-card"><div class="cardhead"><div><div class="muscle">${esc(p.muscle_name)}</div><div class="range">Cible · <b>${p.target_min}–${p.target_max}</b> séries / semaine</div></div><span class="badge">${p.priority}</span></div><div class="priority-meta"><span>S${state.week} actuellement</span><strong>${t} séries</strong></div><div class="prio-buttons">${['P0','P1','P2'].map(x=>`<button data-m="${esc(p.muscle_key)}" data-p="${x}" class="${p.priority===x?'selected':''}">${x}<small>${derivedRange(p.muscle_name,x).join('–')}</small></button>`).join('')}</div></article>`}).join('');v.querySelectorAll('.prio-buttons button').forEach(b=>b.onclick=()=>changePriority(b.dataset.m,b.dataset.p))}
+function drawPriorities(){let v=document.querySelector('#view'),counts={P0:0,P1:0,P2:0},off=disabledMuscles();activePriorities().forEach(p=>counts[p.priority]=(counts[p.priority]||0)+1);v.innerHTML=title('Priorités')+`<section class="priority-overview"><div><small>CONTEXTE DU BLOC</small><strong>${nutritionLabel()}</strong></div><div class="priority-counts"><span class="pc0">P0 · ${counts.P0}</span><span class="pc1">P1 · ${counts.P1}</span><span class="pc2">P2 · ${counts.P2}</span></div><p>Les cibles sont synchronisées avec ForgeLab PC. Un groupe désactivé disparaît des Séries et du Suivi, mais conserve ses données.</p></section>`+state.priorities.map(p=>{let t=total(p.muscle_key),disabled=off.has(p.muscle_key);return`<article class="card ${disabled?'disabled-muscle':p.priority.toLowerCase()} priority-card"><div class="cardhead"><div><div class="muscle">${esc(p.muscle_name)}</div><div class="range">${disabled?'Groupe désactivé':`Cible · <b>${p.target_min}–${p.target_max}</b> séries / semaine`}</div></div><button class="muscle-toggle ${disabled?'off':'on'}" data-toggle="${esc(p.muscle_key)}" aria-label="${disabled?'Réactiver':'Désactiver'} ${esc(p.muscle_name)}">${disabled?'Réactiver':'Actif'}</button></div>${disabled?'':`<div class="priority-meta"><span>S${state.week} actuellement</span><strong>${t} séries</strong></div><div class="prio-buttons">${['P0','P1','P2'].map(x=>`<button data-m="${esc(p.muscle_key)}" data-p="${x}" class="${p.priority===x?'selected':''}">${x}<small>${derivedRange(p.muscle_name,x).join('–')}</small></button>`).join('')}</div>`}</article>`}).join('');v.querySelectorAll('.prio-buttons button').forEach(b=>b.onclick=()=>changePriority(b.dataset.m,b.dataset.p));v.querySelectorAll('[data-toggle]').forEach(b=>b.onclick=()=>setMuscleEnabled(b.dataset.toggle,off.has(b.dataset.toggle)))}
 async function changePriority(muscleKey,priority){let p=state.priorities.find(x=>x.muscle_key===muscleKey);if(!p)return;let[min,max]=derivedRange(p.muscle_name,priority);cloud('ENREGISTREMENT…');await req('/forgelab_priorities?user_id=eq.'+encodeURIComponent(uid())+'&muscle_key=eq.'+encodeURIComponent(muscleKey),{method:'PATCH',headers:{Prefer:'return=minimal'},body:JSON.stringify({priority,target_min:min,target_max:max,updated_at:new Date().toISOString()})});await load()}
 let saveTimers={};
 let saveState={}; // per-cell serialized cloud writes; latest value always wins
 
 function drawSeries(){
   let v=document.querySelector('#view');
-  v.innerHTML=title('Séries / semaine')+state.priorities.map(p=>{
+  v.innerHTML=title('Séries / semaine')+activePriorities().map(p=>{
     let map=Object.fromEntries(rows(p.muscle_key).map(x=>[+x.day,+x.series]));
     return`<article class="card ${p.priority.toLowerCase()}" data-card="${esc(p.muscle_key)}">
       <div class="cardhead"><div><div class="muscle">${esc(p.muscle_name)}</div><div class="range">Cible ${p.target_min}–${p.target_max}</div></div><span class="badge">${p.priority}</span></div>
@@ -283,9 +291,9 @@ function drawTracking(){
     <div class="kpi"><b>${remain}</b><span>restantes jusqu’aux minimums</span></div>
     <div class="kpi"><b>${pct}%</b><span>avancement global</span></div>
   </div>`+
-  `<section class="tracking-headline"><div><small>SEMAINE ${state.week}</small><strong>${atMin} / ${state.priorities.length}</strong><span>groupes au minimum</span></div><div class="overall-ring"><b>${pct}%</b><span>progression</span></div></section>`+
+  `<section class="tracking-headline"><div><small>SEMAINE ${state.week}</small><strong>${atMin} / ${activePriorities().length}</strong><span>groupes au minimum</span></div><div class="overall-ring"><b>${pct}%</b><span>progression</span></div></section>`+
   weeklyTodoRecap()+
-  state.priorities.map(p=>{
+  activePriorities().map(p=>{
     const t=total(p.muscle_key),[mi,ma]=pRange(p),left=Math.max(0,mi-t);
     const pc=mi?Math.min(100,Math.round(t/mi*100)):100;
     const st=t<mi?['Sous la cible','low']:t>ma?['Maximum dépassé','high']:['Dans la cible','ok'];

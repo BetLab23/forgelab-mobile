@@ -166,3 +166,6 @@
 .account-btn{position:fixed;z-index:5000;top:max(8px,env(safe-area-inset-top));right:8px;display:flex;flex-direction:column;align-items:flex-end;padding:6px 8px;border:1px solid rgba(203,157,67,.28);border-radius:9px;background:rgba(10,7,5,.88);color:#eadcc0;backdrop-filter:blur(8px)}
 .account-btn span{max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.62rem;font-weight:800}
 .account-btn small{color:#9e845b;font-size:.52rem}
+
+/* v1.4.2 — comptes mémorisés + groupes activables */
+.known-emails{display:flex;gap:6px;overflow-x:auto;margin-top:7px;padding-bottom:2px}.known-emails button{flex:0 0 auto;max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;border:1px solid #4c3b22;border-radius:999px;background:#100d09;color:#cdb681;padding:6px 9px;font-size:.68rem}.muscle-toggle{flex:0 0 auto;border-radius:999px;padding:7px 10px;font:800 9px Arial;letter-spacing:.3px}.muscle-toggle.on{border:1px solid #55734b;background:#172014;color:#9fc18d}.muscle-toggle.off{border:1px solid #665127;background:#2a2112;color:#e0b45c}.card.disabled-muscle{opacity:.72;border-left:3px solid #5a5144;background:linear-gradient(180deg,#12100d,#0b0a08)}.disabled-muscle .muscle{color:#a99a80}.disabled-muscle .range{color:#776e61}
