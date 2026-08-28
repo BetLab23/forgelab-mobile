@@ -14,3 +14,12 @@ ForgeLab Mobile v1.4.3
 - start_url et manifest ID versionnés en release=143.
 - Repère v1.4.3 visible sous FORGELAB pour contrôler la version réellement chargée sur iPhone.
 - Conserve la mémorisation des e-mails et l'activation/désactivation des groupes musculaires.
+
+ForgeLab Mobile v1.4.4
+- Ajout de l'onglet Cardio.
+- Objectif de séances cardio hebdomadaires paramétrable.
+- Séances cardio ajoutées individuellement avec choix du type, jour, durée et intensité.
+- Types inclus : course, vélo, rameur, air bike, elliptique, marche inclinée, corde à sauter, burpees, circuit maison, sled push/pull, farmer carry.
+- Validation réalisée/non réalisée par séance.
+- Données cardio conservées par compte et par semaine sur l'appareil.
+- Cache-busting renforcé avec fichiers v144 dédiés.
