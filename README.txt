@@ -1,25 +1,7 @@
-ForgeLab Mobile v1.2.2
-
-Modification uniquement de l'icône PWA/iPhone :
-- fond noir ForgeLab
-- couronne supprimée
-- laurier doré conservé
-- texte ForgeLab sous le laurier
-
-Aucune modification de l'interface ni de la synchronisation Supabase.
-
-
-ForgeLab Mobile v1.4.3
-- Cache-busting renforcé : JS/CSS/manifest/icônes portent maintenant un nom de fichier versionné.
-- start_url et manifest ID versionnés en release=143.
-- Repère v1.4.3 visible sous FORGELAB pour contrôler la version réellement chargée sur iPhone.
-- Conserve la mémorisation des e-mails et l'activation/désactivation des groupes musculaires.
-
-ForgeLab Mobile v1.4.4
-- Ajout de l'onglet Cardio.
-- Objectif de séances cardio hebdomadaires paramétrable.
-- Séances cardio ajoutées individuellement avec choix du type, jour, durée et intensité.
-- Types inclus : course, vélo, rameur, air bike, elliptique, marche inclinée, corde à sauter, burpees, circuit maison, sled push/pull, farmer carry.
-- Validation réalisée/non réalisée par séance.
-- Données cardio conservées par compte et par semaine sur l'appareil.
-- Cache-busting renforcé avec fichiers v144 dédiés.
+ForgeLab Mobile v1.4.5
+- Cardio intégré comme priorité du bloc dans Priorités
+- Activation/désactivation Cardio
+- Priorité Cardio P0/P1/P2, modalité et nombre de séances/semaine
+- Dans Séries, ajout/retrait des séances cardio effectuées
+- Suppression de l’onglet Cardio séparé
+- Cache-busting v145
