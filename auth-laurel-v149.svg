@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 190" role="img" aria-label="Couronne de laurier">
+<defs>
+  <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#f6d985"/>
+    <stop offset=".32" stop-color="#ddb45c"/>
+    <stop offset=".66" stop-color="#b27b2f"/>
+    <stop offset="1" stop-color="#7f511d"/>
+  </linearGradient>
+  <linearGradient id="stem" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#e4b85f"/>
+    <stop offset="1" stop-color="#9b6424"/>
+  </linearGradient>
+  <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+    <feDropShadow dx="0" dy="2" stdDeviation="2.4" flood-color="#9c6829" flood-opacity=".22"/>
+  </filter>
+</defs>
+
+<g filter="url(#soft)">
+  <!-- tiges -->
+  <path d="M121 165C90 157 62 137 46 111C34 91 29 67 31 43" fill="none" stroke="url(#stem)" stroke-width="4.2" stroke-linecap="round"/>
+  <path d="M139 165C170 157 198 137 214 111C226 91 231 67 229 43" fill="none" stroke="url(#stem)" stroke-width="4.2" stroke-linecap="round"/>
+
+  <!-- feuilles gauche -->
+  <g fill="url(#gold)">
+    <path d="M111 157C95 159 83 153 77 142C91 141 104 146 111 157Z"/>
+    <path d="M93 148C77 147 66 139 62 127C76 129 88 136 93 148Z"/>
+    <path d="M76 135C61 131 52 121 50 109C63 113 73 122 76 135Z"/>
+    <path d="M61 118C47 112 40 101 40 89C52 95 60 105 61 118Z"/>
+    <path d="M50 98C38 90 33 78 35 66C46 74 52 84 50 98Z"/>
+    <path d="M43 77C33 67 31 55 35 43C44 53 48 64 43 77Z"/>
+    <path d="M41 55C33 44 34 32 40 21C47 33 48 44 41 55Z"/>
+    <path d="M54 107C55 93 62 82 74 76C73 90 66 101 54 107Z"/>
+    <path d="M66 127C69 113 78 103 91 99C88 113 79 123 66 127Z"/>
+    <path d="M82 143C87 130 98 122 112 120C107 134 97 141 82 143Z"/>
+    <path d="M46 86C45 72 51 60 62 52C63 66 57 78 46 86Z"/>
+    <path d="M43 63C40 49 44 37 54 27C57 41 53 53 43 63Z"/>
+  </g>
+
+  <!-- feuilles droite -->
+  <g fill="url(#gold)">
+    <path d="M149 157C165 159 177 153 183 142C169 141 156 146 149 157Z"/>
+    <path d="M167 148C183 147 194 139 198 127C184 129 172 136 167 148Z"/>
+    <path d="M184 135C199 131 208 121 210 109C197 113 187 122 184 135Z"/>
+    <path d="M199 118C213 112 220 101 220 89C208 95 200 105 199 118Z"/>
+    <path d="M210 98C222 90 227 78 225 66C214 74 208 84 210 98Z"/>
+    <path d="M217 77C227 67 229 55 225 43C216 53 212 64 217 77Z"/>
+    <path d="M219 55C227 44 226 32 220 21C213 33 212 44 219 55Z"/>
+    <path d="M206 107C205 93 198 82 186 76C187 90 194 101 206 107Z"/>
+    <path d="M194 127C191 113 182 103 169 99C172 113 181 123 194 127Z"/>
+    <path d="M178 143C173 130 162 122 148 120C153 134 163 141 178 143Z"/>
+    <path d="M214 86C215 72 209 60 198 52C197 66 203 78 214 86Z"/>
+    <path d="M217 63C220 49 216 37 206 27C203 41 207 53 217 63Z"/>
+  </g>
+
+  <!-- croisement bas -->
+  <path d="M116 168L132 160L145 168" fill="none" stroke="url(#stem)" stroke-width="4" stroke-linecap="round"/>
+</g>
+</svg>
