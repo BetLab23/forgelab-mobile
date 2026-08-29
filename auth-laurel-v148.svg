@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 150">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f2cf7a"/><stop offset=".52" stop-color="#c9953d"/><stop offset="1" stop-color="#8d6123"/></linearGradient></defs>
+<g fill="none" stroke="url(#g)" stroke-width="4.2" stroke-linecap="round">
+<path d="M103 132C68 126 39 97 35 53"/><path d="M117 132C152 126 181 97 185 53"/>
+</g>
+<g fill="url(#g)">
+<ellipse cx="82" cy="121" rx="7" ry="15" transform="rotate(-56 82 121)"/><ellipse cx="62" cy="106" rx="7" ry="15" transform="rotate(-48 62 106)"/><ellipse cx="47" cy="86" rx="7" ry="15" transform="rotate(-37 47 86)"/><ellipse cx="38" cy="64" rx="7" ry="15" transform="rotate(-22 38 64)"/><ellipse cx="38" cy="42" rx="7" ry="15" transform="rotate(-6 38 42)"/><ellipse cx="48" cy="24" rx="7" ry="15" transform="rotate(20 48 24)"/>
+<ellipse cx="138" cy="121" rx="7" ry="15" transform="rotate(56 138 121)"/><ellipse cx="158" cy="106" rx="7" ry="15" transform="rotate(48 158 106)"/><ellipse cx="173" cy="86" rx="7" ry="15" transform="rotate(37 173 86)"/><ellipse cx="182" cy="64" rx="7" ry="15" transform="rotate(22 182 64)"/><ellipse cx="182" cy="42" rx="7" ry="15" transform="rotate(6 182 42)"/><ellipse cx="172" cy="24" rx="7" ry="15" transform="rotate(-20 172 24)"/>
+</g>
+<path d="M96 133L110 126L124 133" fill="none" stroke="url(#g)" stroke-width="3.5" stroke-linecap="round"/>
+</svg>
