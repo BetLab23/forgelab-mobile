@@ -1,0 +1,15 @@
+FORGELAB MOBILE v1.8.9 — SYNCHRO CARNET
+
+1. Dans Supabase > SQL Editor, exécuter une seule fois :
+   SUPABASE_CARNET_SYNC_v189.sql
+
+2. Déployer ensuite tous les fichiers de cette archive sur GitHub Pages.
+
+3. IMPORTANT POUR RÉCUPÉRER LES SÉANCES DÉJÀ SAISIES DANS SAFARI :
+   - ouvrir une fois ForgeLab depuis Safari avec ton compte ;
+   - attendre quelques secondes : les anciennes séances locales sont envoyées dans Supabase ;
+   - fermer puis ouvrir ForgeLab depuis l'icône de l'écran d'accueil.
+   Les séances doivent alors être identiques.
+
+Le Carnet et ses brouillons sont isolés par user_id Supabase/RLS.
+Le compte d'un autre utilisateur ne peut donc pas lire tes séances.
