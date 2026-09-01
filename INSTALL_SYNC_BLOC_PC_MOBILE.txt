@@ -1,0 +1,18 @@
+FORGELAB — SYNCHRO NOM / DURÉE / CONTEXTE DU BLOC
+
+1) Supabase > SQL Editor :
+   exécuter SUPABASE_BLOCK_META_SYNC_v190.sql (ou la copie v174 côté PC).
+
+2) Remplacer la version PC par ForgeLab Core v1.7.4.
+   Ouvrir ForgeLab PC avec TON compte : au premier démarrage, il enverra
+   automatiquement le nom du bloc, sa durée et le contexte nutritionnel.
+
+3) Déployer ForgeLab Mobile v1.9.0 sur GitHub Pages.
+
+4) Ouvrir l'app iPhone avec le même compte.
+   Dans Priorités, le bloc affichera :
+   - son vrai nom PC
+   - sa durée
+   - le contexte nutritionnel
+
+Les données sont liées au user_id Supabase : chaque compte garde son propre bloc.
