@@ -1,0 +1,15 @@
+ForgeLab Mobile v1.11.2 — Correctif Séries / Brouillons fantômes
+
+CAUSE CORRIGÉE
+- Le Carnet ne peut plus réinjecter automatiquement des séries dans l'onglet Séries.
+- Séries redevient la seule source de vérité pour le volume hebdomadaire.
+- La validation d'une séance dans le Carnet archive la séance, mais ne modifie plus Séries.
+
+NETTOYAGE UNIQUE À L'INSTALLATION
+- S3 lundi 14/09/2026 : conservé.
+- S3 mardi 15/09/2026 -> dimanche : séries supprimées.
+- Semaines après S3 : séries supprimées.
+- Brouillons automatiques correspondants : supprimés.
+- Historique des séances validées : jamais supprimé.
+
+Le nettoyage est exécuté une seule fois par compte.
