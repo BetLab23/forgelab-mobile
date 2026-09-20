@@ -1,0 +1,5 @@
+ForgeLab Mobile v1.12.2
+- Dans le récap Suivi, la couronne/le laurier est désormais centré au-dessus du texte ForgeLab.
+- Aucun changement de données.
+- Séries S1/S2/S3 intactes.
+- Tous les correctifs Suivi précédents conservés.
