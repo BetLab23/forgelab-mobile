@@ -1,0 +1,9 @@
+ForgeLab Mobile v1.11.8 — Séances dans le récap Suivi
+
+- Ajout du nombre de séances Musculation dans le récap Story.
+- Source utilisée : uniquement les séries saisies, jamais le Carnet.
+- Un jour contenant au moins une série musculaire = une séance détectée.
+- IMPORTANT : le modèle Séries actuel agrège les séries par groupe et par jour.
+  Il ne permet donc pas de distinguer automatiquement deux séances réalisées le même jour.
+  ForgeLab n'invente pas une deuxième séance à partir du volume.
+- Aucune série S1/S2/S3 n'est modifiée, migrée ou supprimée.
