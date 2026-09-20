@@ -1,0 +1,6 @@
+ForgeLab Mobile v1.12.3 — Correctif singulier/pluriel du récap
+- 0 groupe musculaire
+- 1 groupe musculaire
+- 2+ groupes musculaires
+- Même correction pour « travaillé(s) » et « objectif(s) atteint(s) ».
+- Aucune donnée Séries modifiée. S1/S2/S3 intactes.
