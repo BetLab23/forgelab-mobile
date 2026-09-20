@@ -1,0 +1,17 @@
+ForgeLab Mobile v1.11.4 — Correctif critique persistance Séries
+
+CAUSE IDENTIFIÉE
+Le nettoyage S3 ajouté en v1.11.2 avait une clé contenant le numéro de version.
+Lors du passage en v1.11.3, le cache-busting a transformé cette clé en v1113 :
+ForgeLab a donc considéré le nettoyage comme jamais exécuté et a supprimé à nouveau
+les séries S3 du mardi au dimanche.
+
+CORRECTIFS
+- Suppression définitive de tout nettoyage automatique des séries au démarrage.
+- Une mise à jour ForgeLab ne peut plus supprimer les séries utilisateur.
+- La semaine est capturée au moment de la saisie : un changement de semaine avant
+  la fin de la synchronisation ne peut plus envoyer une série dans la mauvaise semaine.
+- Les écritures Séries en attente sont sauvegardées localement et rejouées après
+  reconnexion/rechargement si la synchro Supabase n'avait pas abouti.
+- Le correctif Carnet -> Séries de v1.11.2 reste en place : le Carnet ne recrée pas
+  spontanément des volumes.
