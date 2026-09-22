@@ -1,8 +1,0 @@
-ForgeLab Mobile v1.12.0 — Ajustements récap Suivi
-
-- Libellé corrigé : « GROUPES MUSCULAIRES TRAVAILLÉS ».
-- La tendance de la semaine cite maintenant les groupes musculaires au-dessus du volume maximum prévu.
-- Exemple : « Au-dessus du volume prévu : Deltoïde latéral, Trapèzes supérieurs. »
-- Hotfix Suivi v1.11.9 conservé.
-- Le compteur de séances continue de lire uniquement Séries, jamais le Carnet.
-- Aucune série S1/S2/S3 n'est modifiée, migrée ou supprimée.

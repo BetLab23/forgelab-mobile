@@ -1,8 +1,0 @@
-ForgeLab Mobile v1.11.7 — Correction objectifs Suivi
-
-- Dans le récap global, un objectif musculaire est atteint dès que le minimum hebdomadaire est atteint.
-- Un dépassement du maximum ne retire plus le groupe du compteur des objectifs atteints.
-- Le dépassement reste affiché séparément dans « volume dépassé ».
-- Exemple : 15 groupes au minimum, dont 1 au-dessus du maximum = 15/15 objectifs atteints + 1 volume dépassé.
-- La tendance considère la semaine complète dès que tous les minimums sont atteints.
-- Aucune série S1/S2/S3 n'est modifiée, migrée ou supprimée.
