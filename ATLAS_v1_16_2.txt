@@ -1,0 +1,7 @@
+ForgeLab v1.16.2 — Atlas dynamique verrouillé
+
+18 groupes intégrés :
+Pectoraux, Dos, Deltoïde antérieur, Deltoïde latéral, Deltoïde postérieur, Trapèzes supérieurs, Trapèzes moyens, Cou, Biceps, Triceps, Avant-bras, Abdominaux, Lombaires, Fessiers, Adducteurs, Quadriceps, Ischio-jambiers, Mollets.
+
+Règle visuelle : corps entier face + dos, corps gris, zone ciblée en or.
+Les 3 deltoïdes proviennent exclusivement du visuel validé par l’utilisateur, et ne sont pas régénérés dans la planche globale.
