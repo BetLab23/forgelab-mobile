@@ -1,0 +1,23 @@
+{
+  "source":"anatomy.glb / BodyExplorer",
+  "groups":{
+    "pectoraux":["abdominal part of left pectoralis major","abdominal part of right pectoralis major","clavicular part of left pectoralis major","clavicular part of right pectoralis major","sternocostal part of left pectoralis major","sternocostal part of right pectoralis major"],
+    "dos":["left latissimus dorsi","right latissimus dorsi"],
+    "deltoide_anterieur":["clavicular part of left deltoid","clavicular part of right deltoid"],
+    "deltoide_lateral":["acromial part of left deltoid","acromial part of right deltoid"],
+    "deltoide_posterieur":["spinal part of left deltoid","spinal part of right deltoid"],
+    "trapezes_superieurs":["descending part of left trapezius","descending part of right trapezius"],
+    "trapezes_moyens":["transverse part of left trapezius","transverse part of right trapezius"],
+    "cou":["left sternocleidomastoid","right sternocleidomastoid"],
+    "biceps":["long head of left biceps brachii","short head of left biceps brachii","long head of right biceps brachii","short head of right biceps brachii"],
+    "triceps":["lateral head of left triceps brachii","long head of left triceps brachii","medial head of left triceps brachii","lateral head of right triceps brachii","long head of right triceps brachii","medial head of right triceps brachii"],
+    "avant_bras":["left brachioradialis","right brachioradialis"],
+    "abdominaux":["left rectus abdominis","right rectus abdominis"],
+    "lombaires":[],
+    "fessiers":["left gluteus maximus","right gluteus maximus"],
+    "adducteurs":["left adductor brevis","left adductor longus","left adductor magnus","left adductor minimus","right adductor brevis","right adductor longus","right adductor magnus","right adductor minimus"],
+    "quadriceps":["left rectus femoris","right rectus femoris","left vastus intermedius","left vastus lateralis","left vastus medialis","right vastus intermedius","right vastus lateralis","right vastus medialis"],
+    "ischios":["long head of left biceps femoris","short head of left biceps femoris","left semitendinosus","left semimembranosus","long head of right biceps femoris","short head of right biceps femoris","right semitendinosus","right semimembranosus"],
+    "mollets":["lateral head of left gastrocnemius","medial head of left gastrocnemius","left soleus","lateral head of right gastrocnemius","medial head of right gastrocnemius","right soleus"]
+  }
+}
