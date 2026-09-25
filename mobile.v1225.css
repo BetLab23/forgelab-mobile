@@ -1925,8 +1925,16 @@ body:not(.auth-locked) nav button.active::after{
   content:none!important;display:none!important;background:transparent!important;box-shadow:none!important;
 }
 
-/* v1.23.5 — correction finale du centre optique, mesurée sur les PNG v1.23.1 */
-body:not(.auth-locked) nav button[data-tab="journal"] .nav-real-icon{transform:translateX(5px)!important}
-body:not(.auth-locked) nav button[data-tab="tracking"] .nav-real-icon{transform:translateX(3px)!important}
-body:not(.auth-locked) nav button[data-tab="journal"].active .nav-real-icon{transform:translate(5px,-1px)!important}
-body:not(.auth-locked) nav button[data-tab="tracking"].active .nav-real-icon{transform:translate(3px,-1px)!important}
+/* v1.23.6 — correction directe des deux boutons visibles (validation capture desktop/iPhone) */
+body:not(.auth-locked) nav button[data-tab="journal"]{
+  transform:translateX(-10px)!important;
+}
+body:not(.auth-locked) nav button[data-tab="tracking"]{
+  transform:translateX(-18px)!important;
+}
+body:not(.auth-locked) nav button[data-tab="journal"].active,
+body:not(.auth-locked) nav button[data-tab="tracking"].active{
+  background:transparent!important;
+  border-color:transparent!important;
+  box-shadow:none!important;
+}
