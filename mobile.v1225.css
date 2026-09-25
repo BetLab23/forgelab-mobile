@@ -1934,3 +1934,53 @@ body:not(.auth-locked) nav button .nav-real-icon{margin-left:auto!important;marg
 body:not(.auth-locked) nav{display:grid!important;grid-template-columns:repeat(5,1fr)!important;gap:0!important}
 body:not(.auth-locked) nav button{transform:none!important;margin:0!important;width:auto!important;min-width:0!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important}
 body:not(.auth-locked) nav .nav-real-icon{display:block!important;margin:0 auto 1px!important;object-position:center!important}
+
+
+/* ForgeLab v1.24.1 — bottom navigation rebuilt from scratch.
+   Five absolute 20% slots: no inherited grid/flex spacing can move a tab. */
+body:not(.auth-locked) nav.fl-nav-v1241{
+  position:fixed!important;left:50%!important;right:auto!important;bottom:calc(10px + env(safe-area-inset-bottom))!important;
+  transform:translateX(-50%)!important;width:min(92vw,820px)!important;height:86px!important;min-height:86px!important;
+  display:block!important;padding:7px 8px 8px!important;box-sizing:border-box!important;overflow:hidden!important;
+  border:1px solid rgba(180,130,52,.34)!important;border-radius:22px!important;
+  background:linear-gradient(180deg,rgba(14,13,11,.985),rgba(6,6,5,.985))!important;
+  box-shadow:0 14px 38px rgba(0,0,0,.42)!important;z-index:100!important;
+}
+body:not(.auth-locked) nav.fl-nav-v1241>button{
+  position:absolute!important;top:7px!important;bottom:8px!important;width:20%!important;height:auto!important;
+  margin:0!important;padding:3px 0 5px!important;box-sizing:border-box!important;min-width:0!important;max-width:none!important;
+  display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:2px!important;
+  transform:none!important;border:0!important;background:transparent!important;box-shadow:none!important;outline:none!important;overflow:visible!important;
+  color:#8f877a!important;font-size:9px!important;line-height:1!important;text-align:center!important;
+}
+body:not(.auth-locked) nav.fl-nav-v1241>button:nth-child(1){left:0%!important}
+body:not(.auth-locked) nav.fl-nav-v1241>button:nth-child(2){left:20%!important}
+body:not(.auth-locked) nav.fl-nav-v1241>button:nth-child(3){left:40%!important}
+body:not(.auth-locked) nav.fl-nav-v1241>button:nth-child(4){left:60%!important}
+body:not(.auth-locked) nav.fl-nav-v1241>button:nth-child(5){left:80%!important}
+body:not(.auth-locked) nav.fl-nav-v1241 .fl-nav-iconbox{
+  width:48px!important;height:44px!important;display:grid!important;place-items:center!important;margin:0 auto!important;padding:0!important;
+  flex:0 0 44px!important;transform:none!important;overflow:visible!important;
+}
+body:not(.auth-locked) nav.fl-nav-v1241 .nav-real-icon{
+  display:block!important;width:44px!important;height:42px!important;max-width:44px!important;max-height:42px!important;
+  margin:0!important;padding:0!important;object-fit:contain!important;object-position:50% 50%!important;transform:none!important;
+  opacity:.72!important;filter:grayscale(1) sepia(.12) saturate(.55) brightness(.78) contrast(1.08) drop-shadow(0 1px 2px rgba(0,0,0,.7))!important;
+}
+body:not(.auth-locked) nav.fl-nav-v1241 .fl-nav-label{
+  display:block!important;width:100%!important;margin:0!important;padding:0 1px!important;box-sizing:border-box!important;
+  text-align:center!important;white-space:nowrap!important;overflow:visible!important;transform:none!important;
+}
+body:not(.auth-locked) nav.fl-nav-v1241>button[data-tab="programming"] .fl-nav-label{font-size:8px!important;letter-spacing:-.15px!important}
+body:not(.auth-locked) nav.fl-nav-v1241>button.active{color:#e4bd70!important;text-shadow:0 0 8px rgba(216,169,79,.22)!important}
+body:not(.auth-locked) nav.fl-nav-v1241>button.active .nav-real-icon{
+  opacity:1!important;transform:none!important;
+  filter:grayscale(1) sepia(1) saturate(2.35) hue-rotate(350deg) brightness(1.18) contrast(1.08) drop-shadow(0 0 5px rgba(222,174,79,.58)) drop-shadow(0 2px 6px rgba(0,0,0,.65))!important;
+}
+body:not(.auth-locked) nav.fl-nav-v1241>button::after{content:none!important;display:none!important}
+@media(max-width:380px){
+ body:not(.auth-locked) nav.fl-nav-v1241 .fl-nav-iconbox{width:44px!important;height:41px!important;flex-basis:41px!important}
+ body:not(.auth-locked) nav.fl-nav-v1241 .nav-real-icon{width:41px!important;height:39px!important;max-width:41px!important;max-height:39px!important}
+ body:not(.auth-locked) nav.fl-nav-v1241>button{font-size:8px!important}
+ body:not(.auth-locked) nav.fl-nav-v1241>button[data-tab="programming"] .fl-nav-label{font-size:7.2px!important}
+}
