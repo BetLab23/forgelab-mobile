@@ -1925,16 +1925,21 @@ body:not(.auth-locked) nav button.active::after{
   content:none!important;display:none!important;background:transparent!important;box-shadow:none!important;
 }
 
-/* v1.23.6 — correction directe des deux boutons visibles (validation capture desktop/iPhone) */
-body:not(.auth-locked) nav button[data-tab="journal"]{
-  transform:translateX(-10px)!important;
+
+/* v1.23.7 — navigation finale : grille 5 colonnes + centres réels */
+body:not(.auth-locked) nav{
+  display:grid!important;
+  grid-template-columns:repeat(5,minmax(0,1fr))!important;
+  column-gap:0!important;row-gap:0!important;
+  padding-left:8px!important;padding-right:8px!important;
 }
-body:not(.auth-locked) nav button[data-tab="tracking"]{
-  transform:translateX(-18px)!important;
+body:not(.auth-locked) nav>button{
+  width:100%!important;min-width:0!important;max-width:none!important;
+  margin:0!important;padding-left:0!important;padding-right:0!important;
+  transform:none!important;left:auto!important;right:auto!important;
+  display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;
+  text-align:center!important;justify-self:stretch!important;
 }
-body:not(.auth-locked) nav button[data-tab="journal"].active,
-body:not(.auth-locked) nav button[data-tab="tracking"].active{
-  background:transparent!important;
-  border-color:transparent!important;
-  box-shadow:none!important;
+body:not(.auth-locked) nav>button .nav-real-icon{
+  display:block!important;margin:0 auto 1px!important;position:static!important;left:auto!important;right:auto!important;
 }
