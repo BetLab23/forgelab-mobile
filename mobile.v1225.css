@@ -1889,3 +1889,10 @@ body:not(.auth-locked) #weekTitle{
 
 /* ForgeLab v1.22.5 · Gestion du carnet */
 .j-manage{margin-top:16px;border-color:rgba(218,180,104,.45)}.j-manage-help{margin:10px 0 12px;color:#9f9688;font-size:11px;line-height:1.45}.j-range{display:grid;grid-template-columns:1fr 1fr;gap:8px}.j-range label{font-size:9px;color:#9b9388;text-transform:uppercase}.j-range input{box-sizing:border-box;width:100%;margin-top:5px;padding:10px 7px;border-radius:9px;border:1px solid #493a27;background:#0b0907;color:#eee3cf;font-size:14px}.j-secondary{background:#15110c;color:#d8c39b}.j-clear{width:100%;min-height:42px;margin-top:10px;border-radius:11px;border:1px solid #6f3535;background:#21100f;color:#ff8b86;font-weight:700}.j-manage button:disabled{opacity:.35}
+
+/* v1.22.9 — navigation réaliste, surcouche visuelle uniquement */
+body:not(.auth-locked) nav button{min-width:0!important;padding-left:1px!important;padding-right:1px!important;font-size:9px!important;overflow:visible!important}
+body:not(.auth-locked) nav .nav-real-icon{width:46px!important;height:42px!important;object-fit:contain!important;object-position:50% 50%!important;margin:0 auto 1px!important;transform:none!important}
+body:not(.auth-locked) nav button.active .nav-real-icon{transform:translateY(-1px)!important}
+body:not(.auth-locked) nav button[data-tab="programming"]{font-size:8px!important;letter-spacing:-.15px}
+@media(max-width:380px){body:not(.auth-locked) nav .nav-real-icon{width:42px!important;height:39px!important}body:not(.auth-locked) nav button{font-size:8px!important}body:not(.auth-locked) nav button[data-tab="programming"]{font-size:7.2px!important}}
