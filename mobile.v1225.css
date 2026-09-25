@@ -1924,3 +1924,32 @@ body:not(.auth-locked) nav button::after,
 body:not(.auth-locked) nav button.active::after{
   content:none!important;display:none!important;background:transparent!important;box-shadow:none!important;
 }
+
+/* v1.23.3 — grille de navigation 5 axes fixes, sans retouche des PNG */
+body:not(.auth-locked) nav{
+  display:grid!important;
+  grid-template-columns:repeat(5,minmax(0,1fr))!important;
+  column-gap:0!important;
+  justify-items:stretch!important;
+  align-items:stretch!important;
+}
+body:not(.auth-locked) nav>button{
+  box-sizing:border-box!important;
+  width:100%!important;
+  min-width:0!important;
+  height:100%!important;
+  min-height:0!important;
+  margin:0!important;
+  padding:3px 0 5px!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+  overflow:visible!important;
+}
+body:not(.auth-locked) nav>button .nav-real-icon{
+  display:block!important;
+  margin:0 auto 1px!important;
+  align-self:center!important;
+}
