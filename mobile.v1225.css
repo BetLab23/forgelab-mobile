@@ -1932,3 +1932,7 @@ body:not(.auth-locked) nav button[data-tab="programming"]{font:700 8px Arial,san
 body:not(.auth-locked) nav .nav-real-icon{display:block!important;width:45px!important;height:42px!important;object-fit:contain!important;object-position:center!important;margin:0 auto 1px!important;transform:none!important;}
 body:not(.auth-locked) nav button.active .nav-real-icon{transform:translateY(-1px)!important;}
 body:not(.auth-locked) nav button::after,body:not(.auth-locked) nav button.active::after{content:none!important;display:none!important;}
+
+/* ForgeLab v1.24.4 — deterministic centered SVG icons for Carnet/Suivi */
+body:not(.auth-locked) nav .nav-svg-icon{width:45px!important;height:42px!important;display:block!important;margin:0 auto 1px!important;overflow:visible!important;filter:grayscale(.62) saturate(.45) brightness(.72)!important;}
+body:not(.auth-locked) nav button.active .nav-svg-icon{filter:grayscale(0) saturate(1.05) brightness(1.12) drop-shadow(0 0 5px rgba(213,166,74,.5))!important;transform:translateY(-1px)!important;}
