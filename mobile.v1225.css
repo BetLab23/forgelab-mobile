@@ -1942,3 +1942,6 @@ body:not(.auth-locked) nav button[data-tab="journal"] .nav-real-icon{width:62px!
 body:not(.auth-locked) nav button[data-tab="journal"].active .nav-real-icon{transform:translateY(-1px)!important;}
 body:not(.auth-locked) nav button[data-tab="tracking"] .nav-laurel-only{width:48px!important;height:44px!important;margin:-1px auto 0!important;}
 @media(max-width:380px){body:not(.auth-locked) nav button[data-tab="journal"] .nav-real-icon{width:56px!important;height:50px!important;margin:-5px auto -4px!important;}body:not(.auth-locked) nav button[data-tab="tracking"] .nav-laurel-only{width:44px!important;height:41px!important;}}
+
+/* ForgeLab v1.24.8 — normalized Archive + authentic ForgeLab laurel */
+body:not(.auth-locked) nav button[data-tab="journal"] .nav-real-icon,body:not(.auth-locked) nav button[data-tab="tracking"] .nav-real-icon{width:45px!important;height:42px!important;margin:0 auto 1px!important;object-fit:contain!important;object-position:center!important;}
