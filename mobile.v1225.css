@@ -1936,3 +1936,9 @@ body:not(.auth-locked) nav button::after,body:not(.auth-locked) nav button.activ
 /* ForgeLab v1.24.4 — deterministic centered SVG icons for Carnet/Suivi */
 body:not(.auth-locked) nav .nav-svg-icon{width:45px!important;height:42px!important;display:block!important;margin:0 auto 1px!important;overflow:visible!important;filter:grayscale(.62) saturate(.45) brightness(.72)!important;}
 body:not(.auth-locked) nav button.active .nav-svg-icon{filter:grayscale(0) saturate(1.05) brightness(1.12) drop-shadow(0 0 5px rgba(213,166,74,.5))!important;transform:translateY(-1px)!important;}
+
+/* ForgeLab v1.24.7 — Archive scale + Suivi laurel only */
+body:not(.auth-locked) nav button[data-tab="journal"] .nav-real-icon{width:62px!important;height:54px!important;margin:-6px auto -5px!important;object-fit:contain!important;object-position:center!important;}
+body:not(.auth-locked) nav button[data-tab="journal"].active .nav-real-icon{transform:translateY(-1px)!important;}
+body:not(.auth-locked) nav button[data-tab="tracking"] .nav-laurel-only{width:48px!important;height:44px!important;margin:-1px auto 0!important;}
+@media(max-width:380px){body:not(.auth-locked) nav button[data-tab="journal"] .nav-real-icon{width:56px!important;height:50px!important;margin:-5px auto -4px!important;}body:not(.auth-locked) nav button[data-tab="tracking"] .nav-laurel-only{width:44px!important;height:41px!important;}}
