@@ -1896,3 +1896,19 @@ body:not(.auth-locked) nav .nav-real-icon{width:46px!important;height:42px!impor
 body:not(.auth-locked) nav button.active .nav-real-icon{transform:translateY(-1px)!important}
 body:not(.auth-locked) nav button[data-tab="programming"]{font-size:8px!important;letter-spacing:-.15px}
 @media(max-width:380px){body:not(.auth-locked) nav .nav-real-icon{width:42px!important;height:39px!important}body:not(.auth-locked) nav button{font-size:8px!important}body:not(.auth-locked) nav button[data-tab="programming"]{font-size:7.2px!important}}
+
+/* v1.23.0 — navigation premium monochrome + activation or */
+body:not(.auth-locked) nav .nav-real-icon{
+  width:45px!important;height:42px!important;object-fit:contain!important;object-position:center!important;
+  margin:0 auto 1px!important;transform:none!important;
+  opacity:.72!important;
+  filter:grayscale(1) sepia(.12) saturate(.55) brightness(.78) contrast(1.08) drop-shadow(0 1px 2px rgba(0,0,0,.7))!important;
+  transition:filter .18s ease,opacity .18s ease,transform .18s ease!important;
+}
+body:not(.auth-locked) nav button{color:#8f877a!important;transition:color .18s ease,text-shadow .18s ease!important}
+body:not(.auth-locked) nav button.active{color:#e4bd70!important;text-shadow:0 0 8px rgba(216,169,79,.22)!important}
+body:not(.auth-locked) nav button.active .nav-real-icon{
+  opacity:1!important;transform:translateY(-1px)!important;
+  filter:grayscale(1) sepia(1) saturate(2.35) hue-rotate(350deg) brightness(1.18) contrast(1.08) drop-shadow(0 0 5px rgba(222,174,79,.58)) drop-shadow(0 2px 6px rgba(0,0,0,.65))!important;
+}
+@media(max-width:380px){body:not(.auth-locked) nav .nav-real-icon{width:41px!important;height:39px!important}}
