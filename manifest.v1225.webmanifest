@@ -1,31 +1,31 @@
 {
   "name": "ForgeLab Mobile",
   "short_name": "ForgeLab",
-  "start_url": "./?release=1253",
+  "start_url": "./?release=1254",
   "display": "standalone",
   "background_color": "#100d09",
   "theme_color": "#100d09",
   "icons": [
     {
-      "src": "icon-192-v1253.png",
+      "src": "icon-192-v1254.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "icon-512-v1253.png",
+      "src": "icon-512-v1254.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "icon-512-v1253.png",
+      "src": "icon-512-v1254.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "icon-1024-v1253.png",
+      "src": "icon-1024-v1254.png",
       "sizes": "1024x1024",
       "type": "image/png",
       "purpose": "any"
