@@ -1929,3 +1929,8 @@ body:not(.auth-locked) nav button.active::after{
 body:not(.auth-locked) nav{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;grid-auto-flow:column!important;grid-auto-columns:minmax(0,1fr)!important;gap:0!important;}
 body:not(.auth-locked) nav button{width:100%!important;min-width:0!important;max-width:none!important;margin:0!important;padding:3px 0 5px!important;justify-self:stretch!important;align-self:stretch!important;display:flex!important;align-items:center!important;justify-content:center!important;}
 body:not(.auth-locked) nav button .nav-real-icon{margin-left:auto!important;margin-right:auto!important;}
+
+/* v1.23.9 verified pixel-centered assets */
+body:not(.auth-locked) nav{display:grid!important;grid-template-columns:repeat(5,1fr)!important;gap:0!important}
+body:not(.auth-locked) nav button{transform:none!important;margin:0!important;width:auto!important;min-width:0!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important}
+body:not(.auth-locked) nav .nav-real-icon{display:block!important;margin:0 auto 1px!important;object-position:center!important}
