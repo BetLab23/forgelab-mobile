@@ -1,0 +1,20 @@
+ForgeLab Mobile v1.28.0
+========================
+
+PROGRAMMATION CARDIO
+- Ajout d'un cardio planifié à la journée dans l'onglet Programmation.
+- Trois types rapides : Basse intensité, Seuil, Conditioning.
+- Choix de l'engine et de la durée pour chaque séance fixée à un jour.
+- Conservation du "Cardio libre" : thème, engine, format et fréquence hebdomadaire sans jour imposé.
+- Le visuel de programme généré affiche désormais le cardio fixé sur la journée concernée et garde une zone séparée pour le cardio libre.
+
+SYNCHRONISATION PROGRAMMATION IPHONE ↔ PC
+- Publication de la programmation avancée iPhone dans le payload cloud existant.
+- Synchronisation des programmes actif/brouillons, blocs, exercices programmés, cardio libre, cardio fixé et notes de bloc.
+- Les Séries et les Archives/Carnet ne sont jamais incluses dans ce miroir de programmation.
+- Au premier démarrage de v1.28 sur l'iPhone, la programmation locale du téléphone est prioritaire et devient la source de référence pour initialiser le PC.
+- Une sauvegarde locale est créée avant l'application d'une copie distante.
+
+IMPORTANT
+- Ouvrir d'abord la v1.28.0 sur l'iPhone connecté au même compte ForgeLab afin qu'elle publie les données locales déjà présentes.
+- Ouvrir ensuite la v1.9.0 PC : elle récupère automatiquement ce miroir.
