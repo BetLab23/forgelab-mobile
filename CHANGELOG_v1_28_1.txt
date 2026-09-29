@@ -1,0 +1,19 @@
+ForgeLab Mobile v1.28.1
+
+CARDIO INTÉGRÉ À LA PROGRAMMATION MUSCULATION
+- Le cardio fixé à un jour n’est plus affiché dans un bloc séparé.
+- Chaque carte Lundi / Mardi / ... contient désormais à la fois la musculation et le cardio planifié.
+- Bouton « + Ajouter du cardio » directement dans la journée.
+- Types disponibles : Basse intensité, Seuil, Conditioning.
+- Engine et durée restent modifiables.
+- Le cardio libre reste volontairement dans un bloc distinct, car il n’est attaché à aucun jour précis.
+
+SÉCURITÉ DES DONNÉES
+- Aucun changement de clé de stockage pour le cardio quotidien : les données saisies en v1.28.0 sont réutilisées automatiquement.
+- Aucune remise à zéro des séries, archives ou du programme actif.
+- La synchronisation programmation iPhone → PC reste compatible avec la v1.9.0 PC préparée précédemment.
+
+ORDRE CONSEILLÉ
+1. Déployer cette v1.28.1 sur GitHub.
+2. Ouvrir ForgeLab sur iPhone et vérifier la programmation.
+3. Ne pas ouvrir la nouvelle version PC avant validation de l’iPhone.
