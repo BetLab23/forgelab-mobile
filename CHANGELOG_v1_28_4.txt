@@ -1,0 +1,9 @@
+ForgeLab Mobile v1.28.4
+
+Correctif Suivi > Cardio :
+- remplace la déduplication v1.28.3 par une détection fiable des séances migrées via leur ID d’origine ;
+- fallback compatible avec les anciennes données via jour + qualité + engine, sans dépendre du format supprimé du cardio journalier ;
+- une seule unité héritée de « Cardio libre » est neutralisée par modalité, ce qui évite les doubles comptes sans sous-compter les séances réellement prévues ;
+- une fréquence libre volontairement augmentée reste comptée ;
+- aucune donnée utilisateur n’est supprimée, déplacée ou réinitialisée ;
+- cache-busting PWA complet v1.28.4 (JS, CSS, service worker, manifest, start_url et icônes).
