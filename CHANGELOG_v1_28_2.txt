@@ -1,0 +1,8 @@
+ForgeLab Mobile v1.28.2
+
+- Suivi : ajout de la vue Global (séances prévues/réalisées, temps total, musculation, cardio, résumé par jour).
+- Suivi cardio : objectif hebdomadaire lu depuis la programmation active (cardio quotidien + cardio libre), sans modifier les données existantes.
+- Carnet : séries dégressives avec plusieurs paliers charge/répétitions dans une seule série.
+- Carnet : supersets entre exercices consécutifs ; chaque exercice conserve son propre comptage de séries.
+- Séries : classement automatique des groupes P0 puis P1 puis P2.
+- Aucune suppression, remise à zéro ou migration destructive des données du programme en cours.

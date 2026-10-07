@@ -1,7 +1,7 @@
 {
   "name": "ForgeLab Mobile",
   "short_name": "ForgeLab",
-  "start_url": "./?release=1280",
+  "start_url": "./?v=1.28.2",
   "display": "standalone",
   "background_color": "#100d09",
   "theme_color": "#100d09",
