@@ -1,0 +1,7 @@
+ForgeLab Mobile v1.28.3
+
+Correctif Suivi cardio :
+- corrige le double comptage d’une même séance cardio lorsqu’une ancienne programmation jour-par-jour avait prérempli à la fois le cardio libre et le plan journalier ;
+- le calcul de l’objectif Suivi déduplique uniquement ces entrées héritées ;
+- aucune donnée utilisateur n’est supprimée, déplacée ou réinitialisée ;
+- programme actif, séries, charges, reps, carnet, suivi et cardio restent inchangés.
