@@ -1,0 +1,7 @@
+ForgeLab Mobile v1.30.2
+
+- Priorités : suppression du carré/poignée ≡ en bas à droite des cartes. Les flèches haut/bas sont conservées.
+- Séries > Cardio : le nombre de séances attendues est désormais lu depuis la Programmation active du bloc.
+- Le détail par modalité utilise aussi la fréquence effective de la Programmation.
+- Les anciennes valeurs cardio restent conservées en stockage pour compatibilité ; aucune donnée n’est supprimée ou réécrite.
+- Cache-busting/PWA : build 1302.
