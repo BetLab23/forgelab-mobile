@@ -1,0 +1,7 @@
+ForgeLab Mobile v1.30.5
+
+- Suivi : remplacement de « Lecture » par une conclusion factuelle plus détaillée.
+- Suivi : commentaires de progression en vert, régression en rouge, stabilité en blanc.
+- Suivi : le code couleur est repris dans les exports PDF 9:16.
+- Conclusions : synthèse factuelle de la charge, du volume, du PDC et du cardio selon la sélection.
+- Évolution strictement additive : aucune donnée Séries, Archives, Suivi, Programmation ou Priorités n’est supprimée, réinitialisée ou migrée.
