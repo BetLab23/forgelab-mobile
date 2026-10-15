@@ -1,0 +1,6 @@
+ForgeLab Mobile v1.30.3 — FIX source compteur Cardio
+
+- Corrige le cas où Programmation affiche Cardio libre = 1/sem. mais Séries reste à 1/2.
+- Cause : la trame par défaut visible dans Programmation pouvait ne pas être persistée tant qu'elle n'avait jamais été modifiée ; Séries retombait alors sur l'ancien objectif historique.
+- Séries reconstruit désormais en lecture seule exactement la même trame que Programmation et l'utilise comme source de vérité.
+- Aucune donnée Séries / Archives / Suivi / Programmation n'est supprimée, migrée ou réécrite par ce correctif.
