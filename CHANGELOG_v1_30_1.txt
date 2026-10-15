@@ -1,0 +1,10 @@
+ForgeLab Mobile v1.30.1
+
+- Suivi / Analyse globale : le filtre Groupe / cardio actualise automatiquement les résultats sans bouton Actualiser.
+- Suivi : lorsqu’un groupe musculaire est filtré, le temps est affiché « Non défini » car la durée est enregistrée au niveau de la séance complète, pas par groupe.
+- Suivi : libellés d’export simplifiés (sans le mot Story).
+- Suivi : exports global et groupe/cardio imprimables en PDF 9:16 (108 x 192 mm), une page par visuel 1080 x 1920.
+- Priorités : tri automatique P0 puis P1 puis P2 ; ordre manuel conservé à l’intérieur de chaque niveau.
+- Priorités : flèches haut/bas conservées ; glisser-déposer se recale sur le tri par priorité.
+- Priorités : suppression de l’ancien indicateur carré/≡ en bas à droite qui pouvait masquer P2.
+- Données : aucune suppression, réinitialisation ou migration destructive. Séries, Archives et Suivi existants restent inchangés.
