@@ -1,0 +1,12 @@
+ForgeLab Mobile v1.30.0 — Stories, analyses de tendance et cardio global
+
+- Tous les rapports/extractions principaux passent au format Story Instagram 9:16 (1080 × 1920).
+- Suivi > Analyse globale : commentaire de tendance global (charge, volume, PDC, cardio) en plus des chiffres.
+- Export par groupe musculaire, avec analyse charge / volume et commentaire de tendance.
+- Cardio ajouté au sélecteur Groupe / cardio et exportable seul.
+- Export global enrichi avec séances cardio, temps cardio et distance enregistrée.
+- Comparaison multi-programmes / multi-blocs conservée et ajoutée aux Stories d'export.
+- Séries > Base aérobie : ajout de la distance parcourue (km), intégrée au suivi et aux exports.
+- Compatibilité rétroactive : les anciennes séances cardio sans distance restent conservées et lisibles.
+- Protection des données : aucune suppression, réinitialisation ou migration destructive des Séries, Archives, Suivi ou Carnet.
+- Cache-busting complet v1.30.0 (JS, CSS, manifest, icônes, start_url, service worker).
