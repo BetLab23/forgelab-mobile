@@ -1,0 +1,22 @@
+ForgeLab Mobile v1.29.0
+
+Évolutions
+- Suivi > Global : analyse multi-périodes, programmes et blocs avec comparaison de plusieurs sélections.
+- Suivi > Global : nombre de séances, temps cumulé, séries, tonnage et répartition triée par groupe musculaire.
+- Suivi > Global : export imprimable/PDF selon les filtres actifs.
+- Suivi > Musculation : pavé « séries restantes » cliquable avec détail par groupe musculaire.
+- Archives : nouvelle vue « Par exercice » regroupant toutes les occurrences d’un exercice, indépendamment du nom de séance.
+- Archives : courbe de tendance, historique chronologique, meilleure marque et statut global par exercice.
+- PDC : la convention actuelle « charge = 1 » est reconnue dans l’analyse des exercices PDC connus ; la tendance se base alors sur les répétitions.
+- Comparaison Archives : nouveaux verdicts Progression / Stable / Charge en hausse / Volume en hausse / Volume en baisse / Performance en baisse.
+- Codes couleur : progression vert, stable blanc, charge/volume en hausse or, volume en baisse orange, performance en baisse rouge.
+
+Sécurité des données
+- Aucun reset automatique des Séries au démarrage.
+- Aucune migration destructive des Séries, Archives ou Suivi.
+- Les nouvelles fonctions d’analyse lisent les données existantes sans les réécrire.
+- Les métadonnées de programme sont ajoutées uniquement aux nouvelles séances validées.
+- Un snapshot analytique séparé de l’ancien programme est conservé uniquement lors de l’activation explicite d’un nouveau programme, afin de permettre les comparaisons futures.
+
+PWA
+- Cache-busting complet v1.29.0 (JS, CSS, service worker, manifest, start_url et icônes).
