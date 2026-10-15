@@ -1,0 +1,7 @@
+ForgeLab Mobile v1.29.1 — FIX Date Analyse globale
+
+- Corrige le retour automatique de la date de début d’Analyse globale vers la date par défaut (ex. 28/09 -> 09/09).
+- Les filtres Du / Au / Groupe musculaire / Programmes-Blocs sont maintenant mémorisés dès leur modification, avant même le bouton Actualiser.
+- La synchro cloud continue de charger les données en arrière-plan mais ne reconstruit plus l’écran Suivi toutes les 12 secondes.
+- Aucun changement destructif : Séries, Archives, Suivi et programme actif sont conservés intégralement.
+- Cache-busting complet v1.29.1 (JS, CSS, manifest, service worker, icônes, start_url).
