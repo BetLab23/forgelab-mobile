@@ -1,0 +1,8 @@
+ForgeLab Mobile v1.30.4
+
+- Archives / Gestion du carnet : les exports du carnet complet et d’une période produisent maintenant un PDF vertical 9:16 au lieu de partager des images.
+- Cohérence des rapports : le bilan de bloc et le programme complet utilisent également le PDF vertical 9:16 ; le bouton explicitement nommé « Générer l’image » reste un export image.
+- Libellés : suppression de « Story/Stories » dans les boutons d’export du carnet.
+- Suivi / Analyse globale : commentaire restructuré en Bilan, Charge, Volume, PDC/Cardio et Lecture.
+- Phrases simplifiées, plus explicites et ponctuation corrigée avec majuscule après chaque point.
+- Aucune suppression, réinitialisation ou migration destructive. Les données existantes Séries, Archives, Suivi, Programmation et Priorités restent inchangées.
