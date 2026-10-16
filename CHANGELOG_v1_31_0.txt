@@ -1,0 +1,6 @@
+ForgeLab Mobile v1.31.0
+- Archives > Par exercice : aucune sélection automatique ; placeholder « Choisir un exercice ».
+- Archives : bouton « Voir tous les exercices » et liste dégagés au-dessus de la navigation fixe.
+- Suivi : date de début par défaut = date de début du programme actif.
+- Suivi : comparaison programmes/blocs déplacée en bas et repliée par défaut.
+- Aucune donnée utilisateur modifiée, supprimée ou migrée.
