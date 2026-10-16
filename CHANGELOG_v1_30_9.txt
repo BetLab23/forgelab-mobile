@@ -1,0 +1,7 @@
+ForgeLab Mobile v1.30.9
+
+- Archives > Par exercice : historique visible trié du plus récent au plus ancien.
+- Les calculs/courbes de tendance restent en ordre chronologique pour préserver leur sens.
+- Section « Tous les exercices » masquée par défaut, avec bouton Voir/Masquer.
+- Modification UI uniquement : aucune donnée Séries, Archives, Suivi, Programmation ou Priorités n’est supprimée, réinitialisée, migrée ou réécrite.
+- Cache-busting PWA v1309.
