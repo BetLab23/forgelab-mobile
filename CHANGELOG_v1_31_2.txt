@@ -1,0 +1,5 @@
+ForgeLab Mobile v1.31.2
+
+- Suivi > Global : bilan hebdomadaire replié par défaut derrière « Voir le bilan de la semaine ».
+- L’Analyse globale / Tendance devient visuellement prioritaire.
+- Modification d’interface uniquement : aucune donnée utilisateur n’est supprimée, migrée ou réécrite.
