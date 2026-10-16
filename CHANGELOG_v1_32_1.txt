@@ -1,0 +1,6 @@
+ForgeLab Mobile v1.32.1 — Hiérarchie premium des espaces
+
+- ESPACE PRIORITÉS / PROGRAMMATION / SÉRIES / ARCHIVES / SUIVI devient le titre principal grand et or.
+- Le nom simple de l’onglet devient un sous-titre blanc plus petit.
+- Archives : suppression de « Carnet d’entraînement » comme titre de page ; le titre est désormais « Archives ».
+- Aucun changement de données, stockage ou logique métier.

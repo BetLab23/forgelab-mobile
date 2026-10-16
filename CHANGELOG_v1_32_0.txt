@@ -1,4 +1,4 @@
-ForgeLab Mobile v1.32.0 — Design System Premium
+ForgeLab Mobile v1.32.1 — Design System Premium
 
 - Harmonisation visuelle des 5 espaces : Priorités, Programmation, Séries, Archives, Suivi.
 - En-tête commun : sur-titre or ESPACE … + grand titre serif ivoire.
@@ -7,4 +7,4 @@ ForgeLab Mobile v1.32.0 — Design System Premium
 - Typographie fonctionnelle uniformisée sur la pile système iOS / sans-serif ; serif réservé aux titres et chiffres forts.
 - Tailles, espacements, cartes, boutons, labels et couleurs secondaires harmonisés.
 - Passe strictement UI : aucune donnée, clé de stockage ou logique métier modifiée.
-- Cache-busting PWA v1320.
+- Cache-busting PWA v1321.
