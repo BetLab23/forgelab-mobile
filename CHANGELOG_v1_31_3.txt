@@ -1,0 +1,4 @@
+ForgeLab Mobile v1.31.3
+- Suivi: suppression du bouton intermédiaire « Voir le bilan de la semaine ».
+- Les onglets Global, Musculation et Cardio affichent directement leur contenu respectif.
+- Aucun changement de données utilisateur.
