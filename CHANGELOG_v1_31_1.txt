@@ -1,0 +1,7 @@
+ForgeLab Mobile v1.31.1
+- Suivi Analyse globale : suppression du bouton Actualiser.
+- Tous les filtres (dates, groupe/cardio, programmes/blocs) actualisent automatiquement l'analyse.
+- Tendance globale remontée avant les KPI et renforcée visuellement.
+- Comparaison programmes/blocs repliée en bas.
+- Exports regroupés en bas dans une section repliée "Exporter l’analyse".
+- Modification UI/lecture seule uniquement : aucune donnée Séries, Archives, Suivi, Programmation ou Priorités n'est supprimée, réinitialisée, migrée ou réécrite.
