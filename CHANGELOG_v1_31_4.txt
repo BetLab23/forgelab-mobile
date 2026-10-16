@@ -1,0 +1,5 @@
+ForgeLab Mobile v1.31.4 — Suivi neutre à l’ouverture
+
+- Aucun onglet Global / Musculation / Cardio n’est sélectionné par défaut à l’entrée dans Suivi.
+- Aucun contenu de suivi n’est affiché tant que l’utilisateur n’a pas choisi un onglet.
+- UI uniquement : aucune donnée utilisateur modifiée, supprimée, migrée ou réinitialisée.
