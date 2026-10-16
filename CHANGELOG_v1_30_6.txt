@@ -1,4 +1,4 @@
-ForgeLab Mobile v1.30.6
+ForgeLab Mobile v1.30.7
 
 - Suivi : les libellés Charge, Volume, PDC, Cardio et Conclusion restent toujours en or.
 - Seul le texte de détail est coloré : vert progression, rouge régression, blanc stabilité, neutre si données insuffisantes/contrastées.

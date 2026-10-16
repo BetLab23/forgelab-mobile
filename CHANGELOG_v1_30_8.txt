@@ -1,0 +1,9 @@
+ForgeLab Mobile v1.30.8
+
+- Priorités désormais configurables indépendamment par bloc du programme actif.
+- Visuel Priorités aligné sur la structure de l’onglet Programmation.
+- Bloc en cours mis en évidence ; sélection des autres blocs sans modifier la structure du programme.
+- P0 / P1 / P2, cibles de séries, ordre et état Actif/Inactif propres à chaque bloc.
+- Les groupes inactifs restent visibles et réactivables.
+- Les priorités existantes restent la référence du Bloc 1 ; les autres blocs héritent initialement de cette configuration puis deviennent indépendants.
+- Aucune suppression, aucun reset et aucune migration destructive des données Séries, Archives, Suivi ou du programme en cours.

@@ -1,0 +1,6 @@
+ForgeLab Mobile v1.30.7
+- Correction du comptage des séances Musculation dans Suivi.
+- Plusieurs séances différentes le même jour sont comptées séparément.
+- Les séances portant explicitement (partie 1), (partie 2), etc. sont regroupées en une seule séance logique.
+- Correction appliquée au Suivi Global, au Suivi Musculation et aux bilans hebdomadaires.
+- Aucune donnée utilisateur supprimée, migrée, réinitialisée ou réécrite.
