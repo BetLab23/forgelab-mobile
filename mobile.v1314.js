@@ -2337,7 +2337,7 @@ function drawTracking(){
          ? (cardioOn?cardioTrackingHtml():`<section class="card cardio-tracking-card"><div class="muscle">Cardio</div><div class="range">Cardio non activé dans les priorités.</div></section>`)
          : ''
    }</div>`;
-  v.querySelectorAll('[data-track-mode]').forEach(b=>b.onclick=()=>{trackingMode=b.dataset.trackMode;drawTracking()});
+  v.querySelectorAll('[data-track-mode]').forEach(b=>b.onclick=()=>{const next=b.dataset.trackMode;trackingMode=trackingMode===next?'':next;drawTracking()});
   if(trackingMode==='muscu'){
     wireMuscleReorder(v);
     const toggle=v.querySelector('[data-remaining-toggle]'),detail=v.querySelector('[data-remaining-detail]');if(toggle&&detail)toggle.onclick=()=>{const open=detail.hidden;detail.hidden=!open;toggle.setAttribute('aria-expanded',open?'true':'false');toggle.classList.toggle('open',open)};

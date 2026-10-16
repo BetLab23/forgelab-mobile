@@ -1,0 +1,4 @@
+ForgeLab Mobile v1.31.5
+- Suivi : les onglets Global, Musculation et Cardio fonctionnent désormais en toggle.
+- Recliquer sur l'onglet actif le referme et revient à l'état neutre.
+- Aucun changement des données stockées.
