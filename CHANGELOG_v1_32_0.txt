@@ -1,0 +1,10 @@
+ForgeLab Mobile v1.32.0 — Design System Premium
+
+- Harmonisation visuelle des 5 espaces : Priorités, Programmation, Séries, Archives, Suivi.
+- En-tête commun : sur-titre or ESPACE … + grand titre serif ivoire.
+- Remplacement de LA FORGE · ARCHIVES par ESPACE ARCHIVES.
+- Suppression des doublons de libellés ESPACE PROGRAMMATION / PRIORITÉS dans les écrans de sélection.
+- Typographie fonctionnelle uniformisée sur la pile système iOS / sans-serif ; serif réservé aux titres et chiffres forts.
+- Tailles, espacements, cartes, boutons, labels et couleurs secondaires harmonisés.
+- Passe strictement UI : aucune donnée, clé de stockage ou logique métier modifiée.
+- Cache-busting PWA v1320.
