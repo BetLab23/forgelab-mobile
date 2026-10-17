@@ -1,0 +1,7 @@
+ForgeLab Mobile v1.33.6
+
+- Semaine active : bascule automatique au début de chaque nouvelle semaine du programme (lundi 00:00 pour un programme démarrant un lundi).
+- La bascule automatique ne se produit qu’une fois par nouvelle semaine : la navigation manuelle reste libre jusqu’au lundi suivant.
+- Si l’application est restée ouverte, le retour au premier plan recalcule la semaine active.
+- Seul le pointeur active_week est synchronisé ; aucune séance, série, archive, priorité ou programmation n’est modifiée.
+- Cache-busting mis à jour en v1.33.6.
