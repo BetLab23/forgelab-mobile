@@ -1,0 +1,6 @@
+ForgeLab Mobile v1.33.7
+
+- Suivi : correction du comptage des séances Musculation après archivage du cardio.
+- Les entrées cardio présentes dans Archives sont désormais explicitement exclues du compteur et du temps Musculation.
+- Le cardio reste compté une seule fois dans le bilan Global.
+- Correction purement calcul/affichage : aucune donnée utilisateur modifiée, migrée ou supprimée.
