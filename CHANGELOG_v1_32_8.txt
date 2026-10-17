@@ -1,0 +1,5 @@
+ForgeLab Mobile v1.32.8
+
+- Correction du sélecteur hebdomadaire : le bloc affiché est désormais déterminé par la semaine sélectionnée et les bornes réelles de la trame active (from/to).
+- Le bandeau ne reprend plus le dernier bloc ouvert dans Programmation.
+- Aucune donnée utilisateur ni logique de stockage modifiée.
