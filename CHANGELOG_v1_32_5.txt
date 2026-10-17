@@ -1,0 +1,6 @@
+ForgeLab Mobile v1.32.5
+
+- Correction Suivi > Cardio : les séances détaillées affichées sont désormais filtrées sur la semaine sélectionnée, comme en Musculation.
+- Nettoyage intelligent du package : suppression des anciens doublons de fichiers versionnés et anciens changelogs.
+- Aucune donnée utilisateur, clé localStorage/cloud, archive, série, priorité ou programmation n'est supprimée ni migrée.
+- Cache-busting complet v1325.
