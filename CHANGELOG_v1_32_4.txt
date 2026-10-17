@@ -1,0 +1,5 @@
+ForgeLab Mobile v1.32.4
+- Suivi : boutons GLOBAL / MUSCULATION / CARDIO harmonisés visuellement avec les toggles Archives.
+- État neutre : surface sombre, bordure et chevron pour rendre le caractère cliquable évident.
+- État actif : accent or identique à Archives.
+- Aucun changement de données, stockage ou logique métier.
