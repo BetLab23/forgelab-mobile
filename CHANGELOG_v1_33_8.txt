@@ -1,0 +1,6 @@
+ForgeLab Mobile v1.33.8
+
+- Suivi global : affichage ×2 / ×3 selon le nombre de séances logiques réellement réalisées dans une même journée.
+- Les séances musculation découpées en « partie 1 / partie 2 » restent regroupées en une seule séance logique.
+- Musculation et cardio le même jour affichent M + C avec le multiplicateur correspondant.
+- Modification limitée au calcul/rendu du Suivi : aucune donnée utilisateur modifiée.
