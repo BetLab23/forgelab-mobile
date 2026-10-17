@@ -1,0 +1,4 @@
+v1.33.2
+- Archives: repère haltère pour les séances de musculation.
+- Archives: repère cœur pour les séances cardio.
+- Repères calculés à l’affichage: historique existant et nouvelles séances, sans migration de données.
