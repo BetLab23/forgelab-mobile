@@ -1,0 +1,7 @@
+ForgeLab Mobile v1.34.1
+
+- Navigation basse retravaillée en style premium ForgeLab.
+- Barre noire satinée, contour bronze discret et léger effet de profondeur.
+- Icônes harmonisées visuellement entre les cinq onglets.
+- Onglet actif : plaque bronze très subtile, icône renforcée, halo contenu et indicateur or discret.
+- Aucun changement de données, stockage, synchronisation ou logique métier.
