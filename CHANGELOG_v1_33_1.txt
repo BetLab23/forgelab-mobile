@@ -1,0 +1,6 @@
+ForgeLab Mobile v1.33.1
+- Migration rétroactive non destructive des séances cardio historiques vers Archives > Par séance.
+- Idempotente : aucune duplication au redémarrage.
+- Les données cardio source restent intactes pour Suivi.
+- Les entrées ambiguës/incomplètes sans id ou date valide sont ignorées.
+- Aucun reset ni migration destructive des Séries, Archives, Programmation ou Priorités.
