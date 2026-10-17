@@ -1,0 +1,10 @@
+ForgeLab Mobile v1.34.0 — Performance Pass
+
+- Aucun changement de schéma, migration ou donnée utilisateur.
+- Cache lecture seule du Carnet pour Archives/Suivi : évite les JSON.parse répétés quand les données n'ont pas changé.
+- Les chemins d'édition/sauvegarde continuent d'utiliser les fonctions d'origine.
+- Suivi : recalcul des analyses regroupé à une fois par frame lors des changements de filtre.
+- Archives/Suivi : rendu différé des longues listes hors écran via content-visibility.
+- Synchronisation de fond : aucun polling réseau lorsque l'app est masquée ; reprise immédiate au retour au premier plan.
+- Polling actif légèrement espacé (20 s) pour réduire le travail de fond, sans toucher aux sauvegardes.
+- Cache-busting v1340.
