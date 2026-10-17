@@ -1,0 +1,8 @@
+ForgeLab Mobile v1.32.7
+
+- Suppression complète des anciennes pastilles de semaines.
+- Sélecteur hebdomadaire unique et plus aéré dans Séries, Suivi et Programmation.
+- Bloc semaine agrandi : meilleure lisibilité du programme, du bloc, de la semaine, des dates et de la progression.
+- Flèches précédent/suivant plus confortables et limites S1/dernière semaine désactivées visuellement.
+- Archives restent sans sélecteur de semaine.
+- Aucun changement des données utilisateur ni de la logique de stockage/synchronisation.
