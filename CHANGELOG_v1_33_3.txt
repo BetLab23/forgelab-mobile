@@ -1,0 +1,7 @@
+ForgeLab Mobile v1.33.3
+
+- Archives : remplacement des emojis de type de séance par des pictogrammes UI personnalisés.
+- Musculation : haltère ForgeLab validé, redimensionné et recoloré en or vif.
+- Cardio : cœur vert métallique vif.
+- Application aux séances déjà archivées et futures via rendu à l’affichage.
+- Aucun changement de données, stockage, synchronisation ou logique métier.
