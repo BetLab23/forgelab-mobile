@@ -1,0 +1,6 @@
+ForgeLab Mobile v1.33.5
+
+- Programmation : suppression définitive des anciennes pastilles de semaines dans la vue programme actif et brouillon.
+- Le sélecteur premium supérieur devient l’unique navigation hebdomadaire.
+- Aucun changement de données, stockage, programmation, archives, suivi ou synchronisation.
+- Cache-busting v1.33.5.
