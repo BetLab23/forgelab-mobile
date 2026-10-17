@@ -1,0 +1,8 @@
+ForgeLab Mobile v1.33.9
+
+- Suivi global : le multiplicateur journalier s’applique désormais par type de séance.
+- Musculation + cardio le même jour : affichage M + C, sans ×2 global.
+- Plusieurs séances musculation le même jour : M ×2, M ×3, etc.
+- Plusieurs séances cardio le même jour : C ×2, C ×3, etc.
+- Les séances partie 1 / partie 2 sont regroupées une seule fois sur toute la semaine, même si les parties tombent sur des jours différents.
+- Aucun changement de données, stockage, archives ou synchronisation.
