@@ -1,0 +1,6 @@
+ForgeLab Mobile v1.34.2
+
+- Correction navbar Premium : suppression de la translation horizontale héritée qui décalait la barre vers la gauche.
+- Verrouillage en 5 colonnes visibles sur iPhone.
+- Ajustement responsive des icônes et libellés sans débordement.
+- Aucun changement de données, stockage, synchronisation ou logique métier.
