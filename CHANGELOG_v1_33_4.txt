@@ -1,0 +1,6 @@
+ForgeLab Mobile v1.33.4
+
+- Archives : cœur cardio légèrement réduit pour un meilleur équilibre visuel face à l’icône haltère.
+- Archives : teinte du cœur cardio assombrie vers un vert type Jets, plus premium et moins clair.
+- Ajustement purement UI/visuel : aucun changement des données, du stockage, des archives ou de la synchronisation.
+- Cache-busting incrémenté en v1.33.4.
