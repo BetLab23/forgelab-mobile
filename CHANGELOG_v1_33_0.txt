@@ -1,0 +1,7 @@
+ForgeLab Mobile v1.33.0
+
+- Les séances cardio détaillées saisies depuis Séries sont automatiquement ajoutées aux Archives > Par séance.
+- La donnée cardio d’origine reste conservée pour Suivi : archivage additif, sans migration destructive.
+- Les cartes Archives affichent durée, distance, allure, FC moyenne et RPE pour le cardio.
+- L’export du carnet prend aussi en charge les séances cardio.
+- Aucun historique, programme, priorité ou donnée existante n’est supprimé.
