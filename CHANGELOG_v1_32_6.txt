@@ -1,0 +1,7 @@
+ForgeLab Mobile v1.32.6
+- Nouveau chronographe de cycle compact pour Séries et Suivi.
+- Suppression des pastilles de semaine visibles en permanence dans Séries et Suivi.
+- Appui sur le centre du chronographe : ouverture d'un sélecteur compact de semaines pour accès direct.
+- Archives : bandeau/semaine masqués car la vue Archives n'est pas pilotée par la semaine active.
+- Programmation : conservation de la vue multi-semaines, utile pour la lecture globale du programme.
+- Aucun changement de données, stockage, synchronisation, séries, archives, priorités ou programmation.
