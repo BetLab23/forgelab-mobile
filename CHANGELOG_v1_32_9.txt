@@ -1,0 +1,4 @@
+ForgeLab Mobile v1.32.9
+- Suivi: suppression du rappel redondant de semaine au-dessus des boutons Global / Musculation / Cardio.
+- Le sélecteur de semaine premium reste la seule référence de navigation hebdomadaire.
+- Aucune donnée utilisateur ni logique métier modifiée.
