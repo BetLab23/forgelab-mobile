@@ -1,0 +1,5 @@
+ForgeLab Mobile v1.32.2
+- Archives : aucun mode sélectionné à l’ouverture.
+- PAR SÉANCE et PAR EXERCICE fonctionnent en toggle : clic ouvre, second clic ferme.
+- Changer de vue ferme automatiquement l’autre.
+- UI uniquement : aucune donnée utilisateur modifiée.

@@ -1,0 +1,7 @@
+ForgeLab Mobile v1.32.3
+- Archives : boutons PAR SÉANCE / PAR EXERCICE rendus visuellement plus cliquables.
+- État neutre : surfaces, bordures et chevrons visibles.
+- État actif : accent or renforcé et chevron inversé.
+- Comportement toggle conservé : ouvrir / refermer / basculer entre les deux vues.
+- Aucun stockage, aucune donnée utilisateur et aucune logique métier modifiés.
+- Cache-busting explicite v1323 sur CSS, JS, manifest, icônes et service worker.
