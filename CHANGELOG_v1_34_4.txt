@@ -1,0 +1,9 @@
+ForgeLab Mobile v1.34.4
+
+- Suivi > Tendance globale : le code couleur s’applique désormais uniquement au diagnostic court de chaque indicateur.
+- Charge : « Augmentation de la charge » en vert, « Baisse de la charge » en rouge, « Charge stable » en blanc.
+- Volume, PDC, Cardio et Conclusion suivent la même logique.
+- Les explications et détails chiffrés restent en blanc pour une lecture plus claire.
+- Le résumé global n’est plus entièrement coloré.
+- Les exports PDF utilisent la même hiérarchie visuelle.
+- Aucun changement de données, calculs, stockage ou synchronisation.
