@@ -1,0 +1,7 @@
+ForgeLab Mobile v1.34.6
+
+- Navbar : préchargement des 5 icônes dès le HTML.
+- Navbar : ajout des 5 icônes au cache du service worker.
+- Navbar : stratégie cache-first ciblée pour éviter les pictos absents au lancement à froid.
+- Navbar : URLs d’assets alignées sur le build courant v1346.
+- Aucun changement de données, stockage, synchronisation ou logique métier.
