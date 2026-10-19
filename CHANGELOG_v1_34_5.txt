@@ -1,0 +1,7 @@
+ForgeLab Mobile v1.34.5
+
+- Programmation : correction de lisibilité des champs des séances cardio sur iPhone.
+- Les champs durée/type/engine utilisent désormais un fond noir/anthracite avec texte blanc.
+- Bordure verte discrète cohérente avec l'identité cardio ForgeLab.
+- Correction uniquement UI/CSS : aucune donnée, programmation, archive, série ou synchronisation modifiée.
+- Cache-busting v1345.
