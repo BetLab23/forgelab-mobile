@@ -1,0 +1,5 @@
+ForgeLab Mobile v1.34.8
+
+- Suivi > Séries restantes : affichage « Reste à faire : N » à la place de « +N ».
+- Aucun changement de calcul, données ou autre interface.
+- Cache-busting v1348.
