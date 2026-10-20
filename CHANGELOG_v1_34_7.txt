@@ -1,0 +1,7 @@
+ForgeLab Mobile v1.34.7
+
+- Archives : bouton Modifier rétabli et immédiatement visible en haut d’une séance enregistrée.
+- Le bouton Modifier existant en bas de fiche est conservé.
+- Séries dégressives : champs charge/répétitions corrigés en fond sombre avec texte blanc sur iPhone.
+- Corrections UI uniquement : aucune donnée, archive, série, programmation ou synchronisation modifiée.
+- Cache-busting v1347.
