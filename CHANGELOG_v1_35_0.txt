@@ -1,0 +1,9 @@
+ForgeLab Mobile v1.35.0 — Startup Safe
+
+- Session : une erreur réseau au lancement ne supprime plus la session locale.
+- Démarrage local-first : la programmation locale est affichée avant toute synchronisation cloud.
+- Protection cloud : un snapshot vide/incomplet ne peut plus écraser une programmation locale valide.
+- Une programmation locale valide n’est plus automatiquement remplacée par un miroir cloud invalide.
+- Si une sauvegarde locale valide existe et que le programme actif manque, ForgeLab propose sa restauration, sans l’imposer.
+- Aucun changement des données Séries, Archives ou cardio.
+- Cache-busting v1350.
