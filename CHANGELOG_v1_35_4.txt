@@ -1,0 +1,9 @@
+ForgeLab Mobile v1.35.4
+
+- Réparation Titan Cuirassé après synchro de démarrage.
+- Réécrit le programme complet actif ET l’espace de travail actif de Programmation.
+- Bloc 1 restauré depuis les données historiques présentes dans ForgeLab.
+- Bloc 2 restauré avec Upper/Lower/Seuil SkiErg + bras/cou/Lower/Upper + Run Z2.
+- Ne touche jamais aux Séries, Archives, Carnet ou historique cardio.
+- Snapshot de l’état Programmation précédent conservé avant réparation.
+- Publication cloud effectuée seulement après réparation locale.
