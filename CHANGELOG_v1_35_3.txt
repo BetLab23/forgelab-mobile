@@ -1,0 +1,11 @@
+ForgeLab Mobile v1.35.3 — Reconstruction Titan Cuirassé
+
+- Reconstruction forcée unique du programme actif Titan Cuirassé.
+- Date de début : 28/09/2026. Durée : 14 semaines.
+- Structure : Bloc 1 S1-S4 / Deload 1 S5 / Bloc 2 S6-S9 / Deload 2 S10 / Bloc 3 S11-S14.
+- Bloc 1 reconstruit à partir de la programmation historique ForgeLab conservée.
+- Bloc 2 reconstruit à partir des éléments ForgeLab retrouvés (Upper/Lower/Seuil SkiErg + bras/cou/Run Z2).
+- Deloads et Bloc 3 laissés sans programmation inventée quand les données exactes n'étaient pas récupérables.
+- Sauvegarde de l'état Programmation corrompu avant reconstruction.
+- Aucun changement des Séries, Archives, Carnet ou historique cardio.
+- Publication cloud de la programmation reconstruite après installation locale.
