@@ -1,0 +1,9 @@
+ForgeLab Mobile v1.35.2 — RESTORE TITAN
+
+- Restauration ciblée du programme actif Titan Cuirassé.
+- Cherche en priorité le brouillon complet Titan Cuirassé conservé localement et le recopie vers l’espace actif.
+- Ne supprime pas le brouillon source.
+- Ne touche pas aux Séries, Archives, séances cardio ou historique.
+- Si le brouillon complet n’est plus disponible, utilise l’historique analytique pour restaurer les vrais identifiants/ranges de blocs et rattacher les données de blocs encore présentes.
+- Si restauration réussie, republie la programmation restaurée vers le miroir cloud.
+- Aucun reset de Séries.
