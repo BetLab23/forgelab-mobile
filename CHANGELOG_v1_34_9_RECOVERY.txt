@@ -1,0 +1,8 @@
+ForgeLab Mobile v1.34.9 — RECOVERY SAFE
+
+- Détecte une sauvegarde locale de programmation si le programme actif a disparu.
+- Propose explicitement la restauration avant toute écriture.
+- Restaure uniquement les clés de programmation sauvegardées.
+- Ne touche pas aux Séries, Archives, historique cardio ou données de séances.
+- Bloque l'application d'une programmation cloud incomplète si un programme local valide existe.
+- Après restauration confirmée, republie la programmation restaurée vers le cloud.
