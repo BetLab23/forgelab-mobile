@@ -1,0 +1,6 @@
+ForgeLab Mobile v1.35.1
+
+- Rollback strict du code vers la base v1.34.8.
+- Aucun correctif Recovery v1.34.9 / Startup Safe v1.35.0 inclus.
+- Aucun changement de données ou de logique métier.
+- Nouveau build uniquement pour forcer le rechargement PWA/iOS.
